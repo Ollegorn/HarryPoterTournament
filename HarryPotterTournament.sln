@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryPotterTournament", "HarryPotterTournament\HarryPotterTournament.csproj", "{4CC62119-837D-4DAA-9738-34DC487ED1B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HarryPotterTournament", "HarryPotterTournament\HarryPotterTournament.csproj", "{4CC62119-837D-4DAA-9738-34DC487ED1B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{140BCBDE-CE40-4005-BFED-29A65A584C53}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{140BCBDE-CE40-4005-BFED-29A65A584C53}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repositories", "Repositories\Repositories.csproj", "{F580DF98-005E-429A-8A57-C4001A89C6F2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{B744A2E8-751F-4BD7-BE65-1904F893482D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceContracts", "ServiceContracts\ServiceContracts.csproj", "{590C4892-A68E-4F0A-B46A-1ECD4C856920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RepositoryContracts", "RepositoryContracts\RepositoryContracts.csproj", "{D441F83A-2A5F-43B1-8B73-9E4A52C0E345}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F580DF98-005E-429A-8A57-C4001A89C6F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F580DF98-005E-429A-8A57-C4001A89C6F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F580DF98-005E-429A-8A57-C4001A89C6F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F580DF98-005E-429A-8A57-C4001A89C6F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B744A2E8-751F-4BD7-BE65-1904F893482D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B744A2E8-751F-4BD7-BE65-1904F893482D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B744A2E8-751F-4BD7-BE65-1904F893482D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B744A2E8-751F-4BD7-BE65-1904F893482D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{590C4892-A68E-4F0A-B46A-1ECD4C856920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{590C4892-A68E-4F0A-B46A-1ECD4C856920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{590C4892-A68E-4F0A-B46A-1ECD4C856920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{590C4892-A68E-4F0A-B46A-1ECD4C856920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D441F83A-2A5F-43B1-8B73-9E4A52C0E345}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D441F83A-2A5F-43B1-8B73-9E4A52C0E345}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D441F83A-2A5F-43B1-8B73-9E4A52C0E345}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D441F83A-2A5F-43B1-8B73-9E4A52C0E345}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

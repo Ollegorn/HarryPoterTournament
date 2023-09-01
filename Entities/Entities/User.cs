@@ -1,12 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace Entities
+namespace Entities.Entities
 {
     public class User : IdentityUser
     {
-        public string DisplayName { get; set; }
-
         public int CurrentTournamentPoints { get; set; }
     }
 }
