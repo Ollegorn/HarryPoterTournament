@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HarryPotterTournament", "HarryPotterTournament\HarryPotterTournament.csproj", "{4CC62119-837D-4DAA-9738-34DC487ED1B1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{140BCBDE-CE40-4005-BFED-29A65A584C53}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4CC62119-837D-4DAA-9738-34DC487ED1B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CC62119-837D-4DAA-9738-34DC487ED1B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4CC62119-837D-4DAA-9738-34DC487ED1B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{140BCBDE-CE40-4005-BFED-29A65A584C53}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
