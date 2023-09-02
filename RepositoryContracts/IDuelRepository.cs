@@ -1,16 +1,17 @@
 ﻿using Entities.Entities;
+using ServiceContracts.DuelDto;
 
 namespace RepositoryContracts
 {
     public interface IDuelRepository
     {
-        Task<List<Duel>> GetAllDuels();
+        Task<List<DuelResponseDto>> GetAllDuels();
 
-        Task<Duel> GetDuelById(Guid id);
+        Task<DuelResponseDto> GetDuelById(Guid id);
 
         Task<Duel> AddDuel(Duel duel);
 
-        Task UpdateDuel(Duel duel);
-        Task DeleteDuelById(Guid id);
+        Task<bool> UpdateDuel(Duel duel);
+        Task<bool> DeleteDuelById(Guid id);
     }
 }

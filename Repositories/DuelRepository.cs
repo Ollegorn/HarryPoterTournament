@@ -1,7 +1,9 @@
 ﻿using Entities;
 using Entities.Entities;
+using Entities.Migrations;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
+using ServiceContracts.DuelDto;
 
 namespace Repositories
 {
@@ -21,37 +23,49 @@ namespace Repositories
             return duel;
         }
 
-        public async Task DeleteDuelById(Guid id)
+        public async Task<bool> DeleteDuelById(Guid id)
         {
             var duelToDelete = await _dbContext.Duels.FindAsync(id);
             _dbContext.Duels.Remove(duelToDelete);
             await _dbContext.SaveChangesAsync();
-            return;
+            return true;
         }
 
-        public async Task<List<Duel>> GetAllDuels()
+        public async Task<List<DuelResponseDto>> GetAllDuels()
         {
-            return await _dbContext.Duels.ToListAsync();
+            var duels = await _dbContext.Duels
+                .Include(duel => duel.UserOne)
+                .Include(duel => duel.UserTwo)
+                .ToListAsync();
+
+            var duelsResponse = duels.Select(duel => duel.ToDuelResponseDto()).ToList();
+
+
+            return duelsResponse;
         }
 
-        public async Task<Duel> GetDuelById(Guid id)
+        public async Task<DuelResponseDto> GetDuelById(Guid id)
         {
-            var duel = await _dbContext.Duels.FindAsync(id);
-            return duel;
+            var duel = await _dbContext.Duels
+                .Include(duel => duel.UserOne)
+                .Include(duel => duel.UserTwo)
+                .FirstOrDefaultAsync(duel => duel.DuelId == id);
+
+            var duelResponse = duel.ToDuelResponseDto();
+            return duelResponse;
         }
 
-        public async Task UpdateDuel(Duel duel)
+        public async Task<bool> UpdateDuel(Duel duel)
         {
             var duelToUpdate = await _dbContext.Duels.FindAsync(duel.DuelId);
-            if (duelToUpdate == null) 
+            if (duelToUpdate == null)
             {
-                return;
+                return false;
             }
-            duelToUpdate.MatchName = duel.MatchName;
-            duelToUpdate.Users = duel.Users;
+            _dbContext.Duels.Update(duelToUpdate);
             await _dbContext.SaveChangesAsync();
 
-            return;
+            return true;
         }
     }
 }

@@ -8,8 +8,10 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts.Interfaces;
 using ServiceContracts.Interfaces.DuelInterfaces;
+using ServiceContracts.Interfaces.UserInterfaces;
 using Services;
 using Services.DuelServices;
+using Services.UserServices;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,8 +26,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 });
 
 builder.Services.AddScoped<IJwtService, JwtService>();
+
 builder.Services.AddScoped<IDuelRepository , DuelRepository>();
 builder.Services.AddScoped<IDuelGetterService, DuelGetterService>();
+builder.Services.AddScoped<IDuelAdderService, DuelAdderService>();
+builder.Services.AddScoped<IDuelDeleterService, DuelDeleterService>();
+builder.Services.AddScoped<IDuelUpdaterService, DuelUpdaterService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserGetterService, UserGetterService>();
+builder.Services.AddScoped<IUserUpdaterService, UserUpdaterService>();
+
 
 builder.Services.AddIdentity<User, IdentityRole>(options => {
     options.SignIn.RequireConfirmedAccount = false;

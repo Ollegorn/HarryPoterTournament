@@ -1,5 +1,6 @@
 ﻿using Entities.Entities;
 using RepositoryContracts;
+using ServiceContracts.DuelDto;
 using ServiceContracts.Interfaces.DuelInterfaces;
 
 namespace Services.DuelServices
@@ -13,14 +14,15 @@ namespace Services.DuelServices
             _duelRepository = duelRepository;
         }
 
-        public async Task<List<Duel>> GetAllDuels()
+        public async Task<List<DuelResponseDto>> GetAllDuels()
         {
             var duels = await _duelRepository.GetAllDuels();
+
 
             return duels;
         }
 
-        public async Task<Duel> GetDuelById(Guid id)
+        public async Task<DuelResponseDto> GetDuelById(Guid id)
         {
             var duel = await _duelRepository.GetDuelById(id);
 

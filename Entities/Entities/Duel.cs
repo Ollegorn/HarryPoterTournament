@@ -12,9 +12,11 @@ namespace Entities.Entities
 
         public Guid DuelId { get; set; }
 
-        public string MatchName { get; set; }
+        public string DuelName { get; set; }
 
-        public List<User> Users { get; set; }
+        public User UserOne { get; set; }
+
+        public User UserTwo { get; set; }
 
 
 

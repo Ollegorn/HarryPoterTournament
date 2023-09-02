@@ -8,10 +8,8 @@ using System.Threading.Tasks;
 
 namespace ServiceContracts.Interfaces.DuelInterfaces
 {
-    public interface IDuelGetterService
+    public interface IDuelUpdaterService
     {
-        Task<List<DuelResponseDto>> GetAllDuels();
-
-        Task<DuelResponseDto> GetDuelById(Guid id);
+        Task<bool> UpdateDuelPoints(DuelUpdateRequestDto duelUpdateRequest);
     }
 }
