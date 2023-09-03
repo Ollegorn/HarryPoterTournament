@@ -27,7 +27,6 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpGet("AllDuels")]
-        [Authorize(Roles ="User")]
         public async Task<ActionResult<List<DuelResponseDto>>> GetAllDuels()
         {
             var duels = await _getterService.GetAllDuels();

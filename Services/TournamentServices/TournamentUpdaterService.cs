@@ -1,8 +1,11 @@
 ﻿using Entities.Entities;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.VisualBasic;
 using RepositoryContracts;
 using ServiceContracts.Interfaces.TournamentInterfaces;
+using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.TournamentDto;
+using ServiceContracts.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -16,18 +19,45 @@ namespace Services.TournamentServices
     {
         private readonly ITournamentRepository _tournamentRepository;
         private readonly IDuelRepository _duelRepository;
-        private readonly IUserRepository _userRepository;
+        private readonly IUserGetterService _userGetterService;
 
-        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserRepository userRepository)
+        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserGetterService userGetterService)
         {
             _tournamentRepository = tournamentRepository;
             _duelRepository = duelRepository;
-            _userRepository = userRepository;
+            _userGetterService = userGetterService;
         }
 
         public async Task<bool> AddUserToTournament(Guid tournamnetId, string username)
         {
-            return await _tournamentRepository.AddUserToTournament(tournamnetId, username);
+            var tournament = await _tournamentRepository.GetTournamentById(tournamnetId);
+            
+            if (tournament == null)
+            {
+                return false;
+            }
+            var user = await _userGetterService.GetUserByUsername(username);
+            var userResponse = user.ToUserResponseDto();
+            if (user == null)
+            {
+                return false;
+            }
+
+            if (tournament != null && user != null && tournament.RegisteredUsers != null)
+            {
+                if (tournament.RegisteredUsers.Contains(userResponse))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false; // Handle the case where tournament, user, or RegisteredUsers is null
+            }
+            tournament.RegisteredUsers.Add(userResponse);
+            await _tournamentRepository.AddUserToTournament(tournament.TournamentId, userResponse.UserName);
+
+            return true;
         }
 
         //public async Task<bool> RemoveUserFromTournament(Guid tournamentId, string username)

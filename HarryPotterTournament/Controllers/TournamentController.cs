@@ -1,6 +1,4 @@
-﻿using Azure.Core;
-using Entities.Entities;
-using Microsoft.AspNetCore.Authorization;
+﻿using Entities.Entities;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.TournamentDto;
@@ -26,7 +24,6 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpGet("AllTournamnets")]
-        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<TournamentResponseDto>>> GetAllTournaments()
         {
             var tournaments = await _getterService.GetAllTournaments();

@@ -107,7 +107,8 @@ namespace Repositories
             tournamentToUpdate.Prize = tournament.Prize;
             tournamentToUpdate.Rules = tournament.Rules;
 
-            tournamentToUpdate.RegisteredUsers = tournament.RegisteredUsers;
+            tournamentToUpdate.RegisteredUsers.Clear(); 
+            tournamentToUpdate.RegisteredUsers.AddRange(tournament.RegisteredUsers);
 
             await _dbContext.SaveChangesAsync();
 
