@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230901111905_duels")]
-    partial class duels
+    [Migration("20230902145836_re-init")]
+    partial class reinit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,13 +31,51 @@ namespace Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("MatchName")
+                    b.Property<string>("DuelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("UserOneId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("UserTwoId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("DuelId");
 
+                    b.HasIndex("TournamentId");
+
+                    b.HasIndex("UserOneId");
+
+                    b.HasIndex("UserTwoId");
+
                     b.ToTable("Duels");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Tournament", b =>
+                {
+                    b.Property<Guid>("TournamentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Prize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rules")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TournamentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TournamentId");
+
+                    b.ToTable("Tournaments");
                 });
 
             modelBuilder.Entity("Entities.Entities.User", b =>
@@ -52,11 +90,8 @@ namespace Entities.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CurrentTournamentPoints")
+                    b.Property<int>("Defeats")
                         .HasColumnType("int");
-
-                    b.Property<Guid?>("DuelId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -91,6 +126,12 @@ namespace Entities.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TotalTournamentPoints")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -98,9 +139,10 @@ namespace Entities.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Wins")
+                        .HasColumnType("int");
 
-                    b.HasIndex("DuelId");
+                    b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -109,6 +151,8 @@ namespace Entities.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TournamentId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -280,11 +324,32 @@ namespace Entities.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Entities.Entities.Duel", b =>
+                {
+                    b.HasOne("Entities.Entities.Tournament", null)
+                        .WithMany("TournamentDuels")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Entities.User", "UserOne")
+                        .WithMany()
+                        .HasForeignKey("UserOneId");
+
+                    b.HasOne("Entities.Entities.User", "UserTwo")
+                        .WithMany()
+                        .HasForeignKey("UserTwoId");
+
+                    b.Navigation("UserOne");
+
+                    b.Navigation("UserTwo");
+                });
+
             modelBuilder.Entity("Entities.Entities.User", b =>
                 {
-                    b.HasOne("Entities.Entities.Duel", null)
-                        .WithMany("Users")
-                        .HasForeignKey("DuelId");
+                    b.HasOne("Entities.Entities.Tournament", null)
+                        .WithMany("RegisteredUsers")
+                        .HasForeignKey("TournamentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -338,9 +403,11 @@ namespace Entities.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Entities.Entities.Duel", b =>
+            modelBuilder.Entity("Entities.Entities.Tournament", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("RegisteredUsers");
+
+                    b.Navigation("TournamentDuels");
                 });
 #pragma warning restore 612, 618
         }

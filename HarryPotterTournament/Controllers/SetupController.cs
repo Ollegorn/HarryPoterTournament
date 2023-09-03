@@ -24,7 +24,7 @@ namespace HarryPotterTournament.Controllers
         /// Retrieves all the existing roles.
         /// </summary>
         /// <returns>A list of roles.</returns>
-        [HttpGet]
+        [HttpGet("AllRoles")]
         public async Task<ActionResult> GetAllRoles()
         {
             _logger.LogInformation("Getting all roles");
@@ -41,7 +41,7 @@ namespace HarryPotterTournament.Controllers
         /// </summary>
         /// <param name="name">The name of the role.</param>
         /// <returns>A response message.</returns>
-        [HttpPost]
+        [HttpPost("CreateRole")]
         public async Task<ActionResult> CreateRole(string name)
         {
             _logger.LogInformation("Creating new role");

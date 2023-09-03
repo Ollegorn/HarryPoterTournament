@@ -32,6 +32,9 @@ namespace Entities.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("UserOneId")
                         .HasColumnType("nvarchar(450)");
 
@@ -40,11 +43,36 @@ namespace Entities.Migrations
 
                     b.HasKey("DuelId");
 
+                    b.HasIndex("TournamentId");
+
                     b.HasIndex("UserOneId");
 
                     b.HasIndex("UserTwoId");
 
                     b.ToTable("Duels");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Tournament", b =>
+                {
+                    b.Property<Guid>("TournamentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Prize")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Rules")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TournamentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TournamentId");
+
+                    b.ToTable("Tournaments");
                 });
 
             modelBuilder.Entity("Entities.Entities.User", b =>
@@ -98,6 +126,9 @@ namespace Entities.Migrations
                     b.Property<int>("TotalTournamentPoints")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -117,6 +148,8 @@ namespace Entities.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("TournamentId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -290,6 +323,12 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Entities.Duel", b =>
                 {
+                    b.HasOne("Entities.Entities.Tournament", null)
+                        .WithMany("TournamentDuels")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Entities.Entities.User", "UserOne")
                         .WithMany()
                         .HasForeignKey("UserOneId");
@@ -301,6 +340,13 @@ namespace Entities.Migrations
                     b.Navigation("UserOne");
 
                     b.Navigation("UserTwo");
+                });
+
+            modelBuilder.Entity("Entities.Entities.User", b =>
+                {
+                    b.HasOne("Entities.Entities.Tournament", null)
+                        .WithMany("RegisteredUsers")
+                        .HasForeignKey("TournamentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -352,6 +398,13 @@ namespace Entities.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Entities.Entities.Tournament", b =>
+                {
+                    b.Navigation("RegisteredUsers");
+
+                    b.Navigation("TournamentDuels");
                 });
 #pragma warning restore 612, 618
         }

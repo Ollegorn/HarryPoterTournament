@@ -13,6 +13,7 @@ namespace Entities
 
         public DbSet<User> Users { get; set; }
         public DbSet<Duel> Duels { get; set; }
+        public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
 

@@ -18,6 +18,8 @@ namespace Entities.Entities
 
         public User UserTwo { get; set; }
 
+        public Guid TournamentId { get; set; }
+
 
 
 

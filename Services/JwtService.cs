@@ -21,19 +21,16 @@ namespace Services
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _dbContext;
         private readonly TokenValidationParameters _tokenValidationParameters;
-        private readonly ILogger<JwtService> _logger;
-        public JwtService(IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext burgerDbContext, TokenValidationParameters tokenValidationParameters,ILogger<JwtService> logger)
+        public JwtService(IConfiguration configuration, UserManager<User> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext dbContext, TokenValidationParameters tokenValidationParameters)
         {
             _configuration = configuration;
             _userManager = userManager;
             _roleManager = roleManager;
-            _dbContext = burgerDbContext;
+            _dbContext = dbContext;
             _tokenValidationParameters = tokenValidationParameters;
-            _logger = logger;
         }
         public async Task<TokensResponseDto> GenerateJwtToken(User user)
         {
-            _logger.LogInformation("Generating jwt token");
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();
 
@@ -63,11 +60,10 @@ namespace Services
                 UserId = user.Id
 
             };
-            //await _dbContext.RefreshTokens.AddAsync(refreshToken);
+            await _dbContext.RefreshTokens.AddAsync(refreshToken);
             await _dbContext.SaveChangesAsync();
             var tokensResponse = new TokensResponseDto { Token = jwtToken, RefreshToken = refreshToken.Token };
 
-            _logger.LogInformation("Jwt generated successfully");
 
             return tokensResponse;
         }
@@ -75,7 +71,6 @@ namespace Services
 
         public async Task<List<Claim>> GetAllValidClaims(User user)
         {
-            _logger.LogInformation("Getting all claims for user");
 
             var _options = new IdentityOptions();
             var claims = new List<Claim>()
@@ -100,7 +95,6 @@ namespace Services
                 var role = await _roleManager.FindByNameAsync(userRole);
                 if (role != null)
                 {
-                    _logger.LogInformation("Adding role claims");
 
                     claims.Add(new Claim(ClaimTypes.Role, userRole));
 
@@ -113,7 +107,6 @@ namespace Services
                 
             }
 
-            _logger.LogInformation("Valid claims retrieved successfully");
 
             return claims;
 
@@ -121,7 +114,6 @@ namespace Services
 
         public async Task<TokensResponseDto> VerifyAndGenerateToken(TokenRequestDto tokenRequest)
         {
-            _logger.LogInformation("Verifying refresh token and generating new token");
 
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             try
@@ -136,14 +128,12 @@ namespace Services
 
                     if (result == null)
                     {
-                        _logger.LogInformation("Checking cryptographic algorythm of token");
-
+                       
                         return null;
                     }
                 }
                 var utcExpiryDate = long.Parse(tokenInVerification.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp).Value);
 
-                _logger.LogInformation("Other validations for token");
 
                 var now = DateTime.UtcNow;
                 var expiryDate = UnixTimeStampToDateTime(utcExpiryDate);
@@ -174,13 +164,11 @@ namespace Services
 
                 var finalToken = await GenerateJwtToken(dbUser);
 
-                _logger.LogInformation("Refresh token validated successfully and refreshed jwt");
 
                 return finalToken;
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("Some exception occured");
 
                 return new TokensResponseDto { Errors = new List<string>{"Server error"}};
             }
@@ -188,11 +176,9 @@ namespace Services
 
         private DateTime UnixTimeStampToDateTime(long unixTimeStamp)
         {
-            _logger.LogInformation("Creating unix time stamp");
 
             var dateTimeVal = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
             dateTimeVal = dateTimeVal.AddSeconds(unixTimeStamp).ToUniversalTime();
-            _logger.LogInformation("Created unix time stamp successfully");
 
             return dateTimeVal;
         }
@@ -200,13 +186,11 @@ namespace Services
 
         private string GenerateRefreshToken()
         {
-            _logger.LogInformation("Generating refresh token");
 
             byte[] bytes = new byte[64];
             var randomNumberGenerator = RandomNumberGenerator.Create();
             randomNumberGenerator.GetBytes(bytes);
 
-            _logger.LogInformation("Generated refresh token successfully");
 
             return Convert.ToBase64String(bytes);
         }

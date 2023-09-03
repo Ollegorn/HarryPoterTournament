@@ -8,9 +8,11 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts.Interfaces;
 using ServiceContracts.Interfaces.DuelInterfaces;
+using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using Services;
 using Services.DuelServices;
+using Services.TournamentServices;
 using Services.UserServices;
 using System.Text;
 
@@ -36,6 +38,12 @@ builder.Services.AddScoped<IDuelUpdaterService, DuelUpdaterService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserGetterService, UserGetterService>();
 builder.Services.AddScoped<IUserUpdaterService, UserUpdaterService>();
+
+builder.Services.AddScoped<ITournamentRepository, TournamentRepository>();
+builder.Services.AddScoped<ITournamentGetterService, TournamentGetterService>();
+builder.Services.AddScoped<ITournamentAdderService, TournamentAdderService>();
+builder.Services.AddScoped<ITournamentUpdaterService, TournamentUpdaterService>();
+builder.Services.AddScoped<ITournamentDeleterService, TournamentDeleterService>();
 
 
 builder.Services.AddIdentity<User, IdentityRole>(options => {
@@ -71,6 +79,8 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddSingleton(tokenValidationParameters);
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
