@@ -28,12 +28,12 @@ namespace ServiceContracts.DuelDto
 
             if (duel.UserOne != null)
             {
-                dto.UserOne = new UserResponseDto { UserName = duel.UserOne.UserName, Wins = duel.UserOne.Wins, Defeats = duel.UserOne.Defeats };
+                dto.UserOne = new UserResponseDto { UserName = duel.UserOne.UserName, Wins = duel.UserOne.Wins, Defeats = duel.UserOne.Defeats, Id = duel.UserOne.Id };
             }
 
             if (duel.UserTwo != null)
             {
-                dto.UserTwo = new UserResponseDto { UserName = duel.UserTwo.UserName, Wins = duel.UserTwo.Wins, Defeats = duel.UserTwo.Defeats };
+                dto.UserTwo = new UserResponseDto { UserName = duel.UserTwo.UserName, Wins = duel.UserTwo.Wins, Defeats = duel.UserTwo.Defeats, Id = duel.UserTwo.Id };
             }
 
             return dto;

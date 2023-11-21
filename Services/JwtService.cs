@@ -62,7 +62,7 @@ namespace Services
             };
             await _dbContext.RefreshTokens.AddAsync(refreshToken);
             await _dbContext.SaveChangesAsync();
-            var tokensResponse = new TokensResponseDto { Token = jwtToken, RefreshToken = refreshToken.Token };
+            var tokensResponse = new TokensResponseDto { Token = jwtToken, RefreshToken = refreshToken.Token, UserId = user.Id };
 
 
             return tokensResponse;
