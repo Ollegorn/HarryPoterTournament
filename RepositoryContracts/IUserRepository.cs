@@ -14,6 +14,8 @@ namespace RepositoryContracts
 
         Task<bool> UpdateUserPoints(User user);
 
+        Task<List<UserResponseDto>> GetAllUsers();
+
         //Task<bool> UpdateUserPointsByDuel(Duel duel);
     }
 }

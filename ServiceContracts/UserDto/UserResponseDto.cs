@@ -16,6 +16,8 @@ namespace ServiceContracts.UserDto
         public int Defeats { get; set; }
 
         public int TotalTournamentPoints { get; set; }
+
+        public string Id { get; set; }
     }
 
     public static class UserExtentions
@@ -27,7 +29,8 @@ namespace ServiceContracts.UserDto
                 UserName = user.UserName,
                 Wins = user.Wins,
                 Defeats = user.Defeats,
-                TotalTournamentPoints = user.TotalTournamentPoints
+                TotalTournamentPoints = user.TotalTournamentPoints,
+                Id = user.Id
                 
             };
         }

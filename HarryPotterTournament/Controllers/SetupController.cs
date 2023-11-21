@@ -130,15 +130,15 @@ namespace HarryPotterTournament.Controllers
         /// <summary>
         /// Gets the roles of a spesific user.
         /// </summary>
-        /// <param name="email">The email of the user.</param>
+        /// <param name="name">The name of the user.</param>
         /// <returns>A list of roles.</returns>
         [HttpGet("GetUserRoles")]
-        public async Task<ActionResult> GetUserRoles(string email) 
+        public async Task<ActionResult> GetUserRoles(string name) 
         {
-            _logger.LogInformation("Getting the roles of a user given the email");
+            _logger.LogInformation("Getting the roles of a user given the name");
 
-            //check if email is valid
-            var user = await _userManager.FindByEmailAsync(email);
+            //check if name is valid
+            var user = await _userManager.FindByNameAsync(name);
             if (user == null)
             {
                 _logger.LogInformation("User doenst exist");

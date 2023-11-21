@@ -17,5 +17,6 @@ namespace ServiceContracts.TournamentDto
 
         public string Prize { get; set; }
 
+
     }
 }

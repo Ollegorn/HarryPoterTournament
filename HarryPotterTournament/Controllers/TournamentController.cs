@@ -48,7 +48,7 @@ namespace HarryPotterTournament.Controllers
 
             return Ok(addTournament);
         }
-        [HttpPut("Update Tournament")]
+        [HttpPut("UpdateTournament")]
         public async Task<ActionResult> UpdateTournament(TournamentUpdateRequestDto tournamentUpdateRequestDto)
         {
             var updatedTournament = await _updaterService.UpdateTournament(tournamentUpdateRequestDto);

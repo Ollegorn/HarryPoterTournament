@@ -28,9 +28,13 @@ namespace Services.TournamentServices
             {
                 return false;
             }
-            foreach (var duel in tournamentToDelete.TournamentDuels)
+            if (tournamentToDelete.TournamentDuels.Count != 0 )
             {
-                await _duelDeleterService.DeleteDuel(duel.DuelId);
+
+                foreach (var duel in tournamentToDelete.TournamentDuels)
+                {
+                    await _duelDeleterService.DeleteDuel(duel.DuelId);
+                }
             }
 
             var tournamentResponse =tournamentToDelete.ToTournament();

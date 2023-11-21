@@ -2,6 +2,7 @@
 using Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
+using ServiceContracts.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,6 +41,14 @@ namespace Repositories
 
             await _dbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<UserResponseDto>> GetAllUsers()
+        {
+            var users = await _dbContext.Users.ToListAsync();
+            var usersResponseDto = users.Select(u => u.ToUserResponseDto()).ToList();
+
+            return usersResponseDto;
         }
 
         //public async Task<bool> UpdateUserPointsByDuel(Duel duel)

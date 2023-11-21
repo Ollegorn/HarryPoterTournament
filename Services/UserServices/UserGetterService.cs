@@ -1,6 +1,7 @@
 ﻿using Entities.Entities;
 using RepositoryContracts;
 using ServiceContracts.Interfaces.UserInterfaces;
+using ServiceContracts.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,12 @@ namespace Services.UserServices
         public UserGetterService(IUserRepository userRepository)
         {
             _repository = userRepository;
+        }
+
+        public async Task<List<UserResponseDto>> GetAllUsers()
+        {
+            var users = await _repository.GetAllUsers();
+            return users;
         }
 
         public async Task<User> GetUserByUsername(string username)

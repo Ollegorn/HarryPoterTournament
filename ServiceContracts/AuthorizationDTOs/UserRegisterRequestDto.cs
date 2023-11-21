@@ -20,7 +20,5 @@ namespace ServiceContracts.AuthorizationDTOs
         [MinLength(6)] 
         public string Password { get; set; }
 
-        [Required]
-        public string DisplayName { get; set; }
     }
 }

@@ -90,6 +90,8 @@ namespace Services.TournamentServices
         {
             var registeredUsers = await _tournamentRepository.GetRegisteredUsersForTournament(tournamentId);
 
+            var tournament = await _tournamentRepository.GetTournamentById(tournamentId);
+
             if (registeredUsers == null || registeredUsers.Count < 2)
             {
                 return false; 

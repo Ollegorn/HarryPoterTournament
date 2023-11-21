@@ -45,8 +45,13 @@ namespace HarryPotterTournament.Controllers
             
             return Ok("User points updated successfully.");
 
+        }
 
-
+        [HttpGet("AllUsers")]
+        public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()
+        {
+            var users = await _userGetterService.GetAllUsers();
+            return Ok(users);
         }
 
     }

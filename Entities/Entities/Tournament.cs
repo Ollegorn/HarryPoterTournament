@@ -21,5 +21,6 @@ namespace Entities.Entities
 
         public List<Duel> TournamentDuels { get; set; }
 
+
     }
 }
