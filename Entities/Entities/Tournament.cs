@@ -17,6 +17,8 @@ namespace Entities.Entities
 
         public string Prize { get; set; }
 
+        public int ImageNumber { get; set; }
+
         public List<User> RegisteredUsers { get; set; }
 
         public List<Duel> TournamentDuels { get; set; }

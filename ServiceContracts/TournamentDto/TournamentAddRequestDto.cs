@@ -15,6 +15,8 @@ namespace ServiceContracts.TournamentDto
 
         public string Prize { get; set; }
 
+        public int ImageNumber { get; set; }
+
 
         public Tournament ToTournament()
         {
@@ -22,7 +24,8 @@ namespace ServiceContracts.TournamentDto
             {
                 TournamentName = TournamentName,
                 Rules = Rules,
-                Prize = Prize
+                Prize = Prize,
+                ImageNumber = ImageNumber
             };
         }
     }

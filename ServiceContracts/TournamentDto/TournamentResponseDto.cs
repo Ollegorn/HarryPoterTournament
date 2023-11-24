@@ -19,6 +19,8 @@ namespace ServiceContracts.TournamentDto
 
         public string Prize { get; set; }
 
+        public int ImageNumber { get; set; }
+
         public List<UserResponseDto> RegisteredUsers { get; set; }
 
         public List<DuelResponseDto> TournamentDuels { get; set; }
@@ -33,7 +35,8 @@ namespace ServiceContracts.TournamentDto
                 TournamentId = TournamentId,
                 TournamentName = TournamentName,
                 Rules = Rules,
-                Prize = Prize
+                Prize = Prize,
+                ImageNumber = ImageNumber
             };
         }
     }

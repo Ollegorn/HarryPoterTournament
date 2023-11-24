@@ -3,11 +3,6 @@ using Entities.Entities;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using ServiceContracts.UserDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repositories
 {
@@ -20,10 +15,11 @@ namespace Repositories
             _dbContext = applicationDbContext;
         }
 
+        
+
         public async Task<User> GetUserByUsername(string username)
         {
             var user = await _dbContext.Users.Where(u => u.UserName == username).SingleOrDefaultAsync();
-
             return user;
         }
 

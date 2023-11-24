@@ -10,6 +10,7 @@ namespace ServiceContracts.Interfaces.UserInterfaces
 {
     public interface IUserGetterService
     {
+
         Task<User> GetUserByUsername(string username);
 
         Task<List<UserResponseDto>> GetAllUsers();

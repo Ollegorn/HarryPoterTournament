@@ -63,17 +63,17 @@ namespace HarryPotterTournament.Controllers
             return Ok("Deleted Successfully");
         }
 
-        //[HttpPut("UpdateDuel")]
-        //public async Task<ActionResult> UpdateDuel(DuelUpdateRequestDto duelUpdateRequest)
-        //{
-        //    var updatedDuel = await _updaterService.UpdateDuelPoints(duelUpdateRequest);
+        [HttpPut("UpdateDuel")]
+        public async Task<ActionResult> UpdateDuel(DuelUpdateRequestDto duelUpdateRequest)
+        {
+            var updatedDuel = await _updaterService.UpdateDuelPoints(duelUpdateRequest);
 
-        //    if (!updatedDuel)
-        //    {
-        //        return NotFound("Duel Not Found");
-        //    }
+            if (!updatedDuel)
+            {
+                return NotFound("Duel Not Found");
+            }
 
-        //    return Ok("Updated Successfully");
-        //}
+            return Ok("updated successfully");
+        }
     }
 }
