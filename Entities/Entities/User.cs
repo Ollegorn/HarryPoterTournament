@@ -1,6 +1,5 @@
-﻿using Entities.Migrations;
+﻿
 using Microsoft.AspNetCore.Identity;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Entities
 {
@@ -10,5 +9,7 @@ namespace Entities.Entities
         public int Defeats { get; set; }
         public int TotalTournamentPoints { get; set; }
 
+       
+        public ICollection<UserTournament> UserTournaments { get; set; }
     }
 }

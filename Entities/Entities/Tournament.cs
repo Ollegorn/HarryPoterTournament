@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
 namespace Entities.Entities
 {
@@ -19,7 +14,8 @@ namespace Entities.Entities
 
         public int ImageNumber { get; set; }
 
-        public List<User> RegisteredUsers { get; set; }
+
+        public ICollection<UserTournament> UserTournaments { get; set; }
 
         public List<Duel> TournamentDuels { get; set; }
 

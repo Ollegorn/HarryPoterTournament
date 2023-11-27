@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231124010956_imagenumber for tournaments")]
-    partial class imagenumberfortournaments
+    [Migration("20231126234252_re-init after making many to many relationship")]
+    partial class reinitaftermakingmanytomanyrelationship
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.10")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -132,9 +132,6 @@ namespace Entities.Migrations
                     b.Property<int>("TotalTournamentPoints")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("TournamentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -155,9 +152,22 @@ namespace Entities.Migrations
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
+                    b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("Entities.Entities.UserTournament", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "TournamentId");
+
                     b.HasIndex("TournamentId");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("UserTournaments");
                 });
 
             modelBuilder.Entity("Entities.RefreshToken", b =>
@@ -348,11 +358,23 @@ namespace Entities.Migrations
                     b.Navigation("UserTwo");
                 });
 
-            modelBuilder.Entity("Entities.Entities.User", b =>
+            modelBuilder.Entity("Entities.Entities.UserTournament", b =>
                 {
-                    b.HasOne("Entities.Entities.Tournament", null)
-                        .WithMany("RegisteredUsers")
-                        .HasForeignKey("TournamentId");
+                    b.HasOne("Entities.Entities.Tournament", "Tournament")
+                        .WithMany("UserTournaments")
+                        .HasForeignKey("TournamentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Entities.User", "User")
+                        .WithMany("UserTournaments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tournament");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -408,9 +430,14 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Entities.Tournament", b =>
                 {
-                    b.Navigation("RegisteredUsers");
-
                     b.Navigation("TournamentDuels");
+
+                    b.Navigation("UserTournaments");
+                });
+
+            modelBuilder.Entity("Entities.Entities.User", b =>
+                {
+                    b.Navigation("UserTournaments");
                 });
 #pragma warning restore 612, 618
         }

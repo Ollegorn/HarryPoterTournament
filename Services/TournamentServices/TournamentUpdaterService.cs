@@ -1,17 +1,9 @@
 ﻿using Entities.Entities;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.VisualBasic;
 using RepositoryContracts;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.TournamentDto;
 using ServiceContracts.UserDto;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.TournamentServices
 {
@@ -37,7 +29,7 @@ namespace Services.TournamentServices
                 return false;
             }
             var user = await _userGetterService.GetUserByUsername(username);
-            var userResponse = user.ToUserResponseDto();
+            var userResponse = UserExtentions.ToUserResponseDto(user);
             if (user == null)
             {
                 return false;

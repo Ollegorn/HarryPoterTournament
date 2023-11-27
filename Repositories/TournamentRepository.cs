@@ -1,6 +1,5 @@
 ﻿using Entities;
 using Entities.Entities;
-using Entities.Migrations;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using ServiceContracts.Interfaces.UserInterfaces;
@@ -8,7 +7,6 @@ using ServiceContracts.TournamentDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Repositories
@@ -26,11 +24,13 @@ namespace Repositories
 
         public async Task<bool> AddUserToTournament(Guid tournamentId, string username)
         {
-            var tournament = await _dbContext.Tournaments.Include(t => t.RegisteredUsers).FirstOrDefaultAsync(t => t.TournamentId == tournamentId);
+            var tournament = await _dbContext.Tournaments
+                .Include(t => t.UserTournaments)
+                .FirstOrDefaultAsync(t => t.TournamentId == tournamentId);
 
             if (tournament == null)
             {
-                return false; 
+                return false;
             }
 
             var user = await _userGetterService.GetUserByUsername(username);
@@ -39,27 +39,22 @@ namespace Repositories
                 return false;
             }
 
-            if (tournament.RegisteredUsers.Contains(user))
+            // Check if the user is already registered in the tournament
+            if (tournament.UserTournaments.Any(ut => ut.UserId == user.Id))
             {
                 return false;
             }
 
-            tournament.RegisteredUsers.Add(user);
-            await _dbContext.SaveChangesAsync();
-            return true;
-        }
+            // Create a new UserTournament instance
+            var userTournament = new UserTournament
+            {
+                UserId = user.Id,
+                TournamentId = tournamentId
+            };
 
-        public async Task<Tournament> AddTournament(Tournament tournament)
-        {
-            _dbContext.Add(tournament);
-            await _dbContext.SaveChangesAsync();
-            return tournament;
-        }
+            // Add the UserTournament to the tournament
+            tournament.UserTournaments.Add(userTournament);
 
-        public async Task<bool> DeleteTournament(Guid tournamentId)
-        {
-            var tournamentToDelete = await _dbContext.Tournaments.FindAsync(tournamentId);
-             _dbContext.Tournaments.Remove(tournamentToDelete);
             await _dbContext.SaveChangesAsync();
             return true;
         }
@@ -67,7 +62,8 @@ namespace Repositories
         public async Task<List<TournamentResponseDto>> GetAllTournaments()
         {
             var tournaments = await _dbContext.Tournaments
-                .Include(t => t.RegisteredUsers)
+                .Include(t => t.UserTournaments)
+                    .ThenInclude(ut => ut.User) // Include the User related to each UserTournament
                 .Include(t => t.TournamentDuels)
                 .ToListAsync();
 
@@ -79,10 +75,10 @@ namespace Repositories
         public async Task<TournamentResponseDto> GetTournamentById(Guid id)
         {
             var tournament = await _dbContext.Tournaments
-                .Include(t => t.RegisteredUsers)
+                .Include(t => t.UserTournaments)
                 .Include(t => t.TournamentDuels)
                 .FirstOrDefaultAsync(t => t.TournamentId == id);
-            
+
             if (tournament == null)
             {
                 return null;
@@ -93,11 +89,27 @@ namespace Repositories
             return tournamentResponseDto;
         }
 
+        public async Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId)
+        {
+            return await _dbContext.UserTournaments
+                .Where(ut => ut.TournamentId == tournamentId)
+                .Select(ut => ut.User)
+                .ToListAsync();
+        }
+
+        public async Task<Tournament> AddTournament(Tournament tournament)
+        {
+            _dbContext.Add(tournament);
+            await _dbContext.SaveChangesAsync();
+            return tournament;
+        }
+
         public async Task<bool> UpdateTournament(Tournament tournament)
         {
             var tournamentToUpdate = await _dbContext.Tournaments
-                .Include(t => t.RegisteredUsers)
+                .Include(t => t.UserTournaments)
                 .FirstOrDefaultAsync(t => t.TournamentId == tournament.TournamentId);
+
             if (tournamentToUpdate == null)
             {
                 return false;
@@ -107,20 +119,31 @@ namespace Repositories
             tournamentToUpdate.Prize = tournament.Prize;
             tournamentToUpdate.Rules = tournament.Rules;
 
-            tournamentToUpdate.RegisteredUsers.Clear(); 
-            tournamentToUpdate.RegisteredUsers.AddRange(tournament.RegisteredUsers);
+            // Clear existing UserTournaments and add the new ones
+            tournamentToUpdate.UserTournaments.Clear();
+
+            foreach (var userTournamentDto in tournament.UserTournaments)
+            {
+                var userTournament = new UserTournament
+                {
+                    UserId = userTournamentDto.UserId,
+                    TournamentId = tournament.TournamentId
+                };
+
+                tournamentToUpdate.UserTournaments.Add(userTournament);
+            }
 
             await _dbContext.SaveChangesAsync();
 
             return true;
         }
 
-        public async Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId)
+        public async Task<bool> DeleteTournament(Guid tournamentId)
         {
-            return await _dbContext.Tournaments
-                .Where(t => t.TournamentId == tournamentId)
-                .SelectMany(t => t.RegisteredUsers)
-                .ToListAsync();
+            var tournamentToDelete = await _dbContext.Tournaments.FindAsync(tournamentId);
+            _dbContext.Tournaments.Remove(tournamentToDelete);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

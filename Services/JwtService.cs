@@ -3,7 +3,6 @@ using Entities.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using ServiceContracts.AuthorizationDto;
 using ServiceContracts.Interfaces;

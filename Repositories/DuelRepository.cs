@@ -1,6 +1,5 @@
 ﻿using Entities;
 using Entities.Entities;
-using Entities.Migrations;
 using Microsoft.EntityFrameworkCore;
 using RepositoryContracts;
 using ServiceContracts.DuelDto;
