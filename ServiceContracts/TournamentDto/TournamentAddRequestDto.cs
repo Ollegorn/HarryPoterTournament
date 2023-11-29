@@ -11,7 +11,7 @@ namespace ServiceContracts.TournamentDto
     {
         public string TournamentName { get; set; }
 
-        public string Rules { get; set; }
+        public List<string> Rules { get; set; }
 
         public string Prize { get; set; }
 

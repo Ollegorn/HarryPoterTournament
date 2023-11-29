@@ -10,9 +10,15 @@ namespace ServiceContracts.TournamentDto
 
         public Guid TournamentId { get; set; }
 
-        public string Rules { get; set; }
+        public List<string> Rules { get; set; }
+
+        public string Description { get; set; }
 
         public string Prize { get; set; }
+
+        public bool IsFlagged { get; set; }
+
+        public DateTime Dates { get; set; }
 
         public int ImageNumber { get; set; }
 
@@ -31,7 +37,10 @@ namespace ServiceContracts.TournamentDto
                 TournamentName = TournamentName,
                 Rules = Rules,
                 Prize = Prize,
-                ImageNumber = ImageNumber
+                ImageNumber = ImageNumber,
+                Description = Description,
+                IsFlagged = IsFlagged,
+                Dates = Dates,
             };
         }
     }
@@ -46,7 +55,8 @@ namespace ServiceContracts.TournamentDto
                 Rules = tournament.Rules,
                 Prize = tournament.Prize,
                 RegisteredUsers = tournament.UserTournaments?.Select(ut => ut.User.ToUserResponseDto()).ToList(),
-                TournamentDuels = tournament.TournamentDuels?.Select(d => d.ToDuelResponseDto()).ToList()
+                TournamentDuels = tournament.TournamentDuels?.Select(d => d.ToDuelResponseDto()).ToList(),
+
             };
 
             return tournamentDto;

@@ -8,9 +8,15 @@ namespace Entities.Entities
 
         public Guid TournamentId { get; set; }
 
-        public string Rules { get; set; }
+        public List<string> Rules { get; set; }
+
+        public string Description { get; set; }
 
         public string Prize { get; set; }
+
+        public bool IsFlagged { get; set; }
+
+        public DateTime Dates { get; set; }
 
         public int ImageNumber { get; set; }
 

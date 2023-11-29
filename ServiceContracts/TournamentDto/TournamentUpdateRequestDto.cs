@@ -13,7 +13,7 @@ namespace ServiceContracts.TournamentDto
 
         public Guid TournamentId { get; set; }
 
-        public string Rules { get; set; }
+        public List<string> Rules { get; set; }
 
         public string Prize { get; set; }
 
