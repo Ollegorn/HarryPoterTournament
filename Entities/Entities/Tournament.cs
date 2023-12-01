@@ -16,7 +16,9 @@ namespace Entities.Entities
 
         public bool IsFlagged { get; set; }
 
-        public DateTime Dates { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public int ImageNumber { get; set; }
 

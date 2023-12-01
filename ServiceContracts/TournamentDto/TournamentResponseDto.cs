@@ -18,7 +18,9 @@ namespace ServiceContracts.TournamentDto
 
         public bool IsFlagged { get; set; }
 
-        public DateTime Dates { get; set; }
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public int ImageNumber { get; set; }
 
@@ -40,7 +42,8 @@ namespace ServiceContracts.TournamentDto
                 ImageNumber = ImageNumber,
                 Description = Description,
                 IsFlagged = IsFlagged,
-                Dates = Dates,
+                StartDate = StartDate,
+                EndDate = EndDate
             };
         }
     }
@@ -56,6 +59,10 @@ namespace ServiceContracts.TournamentDto
                 Prize = tournament.Prize,
                 RegisteredUsers = tournament.UserTournaments?.Select(ut => ut.User.ToUserResponseDto()).ToList(),
                 TournamentDuels = tournament.TournamentDuels?.Select(d => d.ToDuelResponseDto()).ToList(),
+                Description = tournament.Description,
+                IsFlagged= tournament.IsFlagged,
+                StartDate= tournament.StartDate,
+                EndDate= tournament.EndDate,
 
             };
 

@@ -17,6 +17,12 @@ namespace ServiceContracts.TournamentDto
 
         public int ImageNumber { get; set; }
 
+        public string Description { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
 
         public Tournament ToTournament()
         {
@@ -25,7 +31,10 @@ namespace ServiceContracts.TournamentDto
                 TournamentName = TournamentName,
                 Rules = Rules,
                 Prize = Prize,
-                ImageNumber = ImageNumber
+                ImageNumber = ImageNumber,
+                Description = Description,
+                StartDate = StartDate,
+                EndDate = EndDate
             };
         }
     }
