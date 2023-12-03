@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231130200055_start end date tourn")]
-    partial class startenddatetourn
+    [Migration("20231203160648_re-init migrations")]
+    partial class reinitmigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,9 +31,15 @@ namespace Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("DuelDefeats")
+                        .HasColumnType("int");
+
                     b.Property<string>("DuelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DuelWins")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TournamentId")
                         .HasColumnType("uniqueidentifier");
@@ -43,6 +49,9 @@ namespace Entities.Migrations
 
                     b.Property<string>("UserTwoId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isCompleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("DuelId");
 

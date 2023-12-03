@@ -63,6 +63,7 @@ namespace ServiceContracts.TournamentDto
                 IsFlagged= tournament.IsFlagged,
                 StartDate= tournament.StartDate,
                 EndDate= tournament.EndDate,
+                ImageNumber= tournament.ImageNumber,
 
             };
 

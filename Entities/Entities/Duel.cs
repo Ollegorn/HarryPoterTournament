@@ -20,6 +20,12 @@ namespace Entities.Entities
 
         public Guid TournamentId { get; set; }
 
+        public int DuelWins { get; set; }
+
+        public int DuelDefeats { get; set; }
+
+        public bool isCompleted { get; set; } = false;
+
 
 
 

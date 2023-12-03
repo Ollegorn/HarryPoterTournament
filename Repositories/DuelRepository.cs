@@ -54,13 +54,14 @@ namespace Repositories
             return duelResponse;
         }
 
-        public async Task<bool> UpdateDuel(Duel duel)
+        public async Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto)
         {
-            var duelToUpdate = await _dbContext.Duels.FindAsync(duel.DuelId);
+            var duelToUpdate = await _dbContext.Duels.FindAsync(duelUpdateRequestDto.DuelId);
             if (duelToUpdate == null)
             {
                 return false;
             }
+            duelToUpdate.isCompleted = true;
             _dbContext.Duels.Update(duelToUpdate);
             await _dbContext.SaveChangesAsync();
 

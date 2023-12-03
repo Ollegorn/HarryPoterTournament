@@ -13,6 +13,12 @@ namespace ServiceContracts.DuelDto
 
         public UserResponseDto UserTwo { get; set; }
 
+        public int DuelWins { get; set; }
+
+        public int DuelDefeats { get; set; }
+
+        public bool isCompleted { get; set; }
+
 
     }
     public static class DuelExtentions
@@ -23,6 +29,9 @@ namespace ServiceContracts.DuelDto
             {
                 DuelId = duel.DuelId,
                 DuelName = duel.DuelName,
+                DuelWins = duel.UserOne.Wins,
+                DuelDefeats = duel.UserOne.Defeats,
+                isCompleted = duel.isCompleted
 
             };
 

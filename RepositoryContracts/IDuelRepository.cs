@@ -11,7 +11,7 @@ namespace RepositoryContracts
 
         Task<Duel> AddDuel(Duel duel);
 
-        Task<bool> UpdateDuel(Duel duel);
+        Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto);
         Task<bool> DeleteDuelById(Guid id);
     }
 }

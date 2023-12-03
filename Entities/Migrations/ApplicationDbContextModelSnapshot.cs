@@ -28,9 +28,15 @@ namespace Entities.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<int>("DuelDefeats")
+                        .HasColumnType("int");
+
                     b.Property<string>("DuelName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("DuelWins")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("TournamentId")
                         .HasColumnType("uniqueidentifier");
@@ -40,6 +46,9 @@ namespace Entities.Migrations
 
                     b.Property<string>("UserTwoId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<bool>("isCompleted")
+                        .HasColumnType("bit");
 
                     b.HasKey("DuelId");
 

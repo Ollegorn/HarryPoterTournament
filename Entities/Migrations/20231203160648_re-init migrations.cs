@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Entities.Migrations
 {
     /// <inheritdoc />
-    public partial class reinitaftermakingmanytomanyrelationship : Migration
+    public partial class reinitmigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -78,7 +78,11 @@ namespace Entities.Migrations
                     TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     TournamentName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Rules = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Prize = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsFlagged = table.Column<bool>(type: "bit", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ImageNumber = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -200,7 +204,10 @@ namespace Entities.Migrations
                     DuelName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     UserOneId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     UserTwoId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    TournamentId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DuelWins = table.Column<int>(type: "int", nullable: false),
+                    DuelDefeats = table.Column<int>(type: "int", nullable: false),
+                    isCompleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

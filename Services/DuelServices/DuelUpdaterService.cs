@@ -31,6 +31,11 @@ namespace Services.DuelServices
             {
                 return false;
             }
+            
+            if (existingDuel.isCompleted)
+            {
+                return false;
+            }
             var userOneWins = duelUpdateRequest.UserOneWins;
             var userOneDefeats = duelUpdateRequest.UserOneDefeats;
 
@@ -47,6 +52,8 @@ namespace Services.DuelServices
 
             await _userUpdaterService.UpdateUserPointsAfterDuel(userOne);
             await _userUpdaterService.UpdateUserPointsAfterDuel(userTwo);
+           
+            await _duelRepository.UpdateDuel(duelUpdateRequest);
 
             return true;
 
