@@ -61,7 +61,9 @@ namespace Repositories
             {
                 return false;
             }
-            duelToUpdate.isCompleted = true;
+            duelToUpdate.DuelWins = duelUpdateRequestDto.UserOneWins;
+            duelToUpdate.DuelDefeats = duelUpdateRequestDto.UserOneDefeats;
+            duelToUpdate.isCompleted = duelUpdateRequestDto.isCompleted;
             _dbContext.Duels.Update(duelToUpdate);
             await _dbContext.SaveChangesAsync();
 

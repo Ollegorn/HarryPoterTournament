@@ -24,6 +24,12 @@ namespace Services.DuelServices
             _userGetterService = userGetterService;
         }
 
+        public async Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto)
+        {
+            await _duelRepository.UpdateDuel(duelUpdateRequestDto);
+            return true;
+        }
+
         public async Task<bool> UpdateDuelPoints(DuelUpdateRequestDto duelUpdateRequest)
         {
             var existingDuel = await _duelRepository.GetDuelById(duelUpdateRequest.DuelId);
@@ -39,10 +45,8 @@ namespace Services.DuelServices
             var userOneWins = duelUpdateRequest.UserOneWins;
             var userOneDefeats = duelUpdateRequest.UserOneDefeats;
 
-            var user1 = existingDuel.UserOne;
 
-
-            User userOne = await  _userGetterService.GetUserByUsername(user1.UserName);
+            User userOne = await  _userGetterService.GetUserByUsername(existingDuel.UserOne.UserName);
             var userTwo =await  _userGetterService.GetUserByUsername(existingDuel.UserTwo.UserName);
 
             userOne.Wins += userOneWins;
@@ -53,7 +57,6 @@ namespace Services.DuelServices
             await _userUpdaterService.UpdateUserPointsAfterDuel(userOne);
             await _userUpdaterService.UpdateUserPointsAfterDuel(userTwo);
            
-            await _duelRepository.UpdateDuel(duelUpdateRequest);
 
             return true;
 

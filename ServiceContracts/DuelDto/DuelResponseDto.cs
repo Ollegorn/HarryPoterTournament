@@ -29,8 +29,8 @@ namespace ServiceContracts.DuelDto
             {
                 DuelId = duel.DuelId,
                 DuelName = duel.DuelName,
-                DuelWins = duel.UserOne.Wins,
-                DuelDefeats = duel.UserOne.Defeats,
+                DuelWins = duel.DuelWins,
+                DuelDefeats = duel.DuelDefeats,
                 isCompleted = duel.isCompleted
 
             };

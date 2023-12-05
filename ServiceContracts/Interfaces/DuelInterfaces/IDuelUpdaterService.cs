@@ -11,5 +11,7 @@ namespace ServiceContracts.Interfaces.DuelInterfaces
     public interface IDuelUpdaterService
     {
         Task<bool> UpdateDuelPoints(DuelUpdateRequestDto duelUpdateRequest);
+
+        Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto);
     }
 }

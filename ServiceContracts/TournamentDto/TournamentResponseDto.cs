@@ -82,7 +82,8 @@ namespace ServiceContracts.TournamentDto
                 UserName = user.UserName,
                 Wins = user.Wins,
                 Defeats = user.Defeats,
-                TotalTournamentPoints = user.TotalTournamentPoints
+                TotalTournamentPoints = user.TotalTournamentPoints,
+                Id = user.Id,
             };
         }
 
@@ -93,7 +94,10 @@ namespace ServiceContracts.TournamentDto
                 DuelId = duel.DuelId,
                 DuelName = duel.DuelName,
                 UserOne = duel.UserOne?.ToUserResponseDto(),
-                UserTwo = duel.UserTwo?.ToUserResponseDto()
+                UserTwo = duel.UserTwo?.ToUserResponseDto(),
+                DuelWins = duel.DuelWins,
+                DuelDefeats = duel.DuelDefeats,
+                isCompleted = duel.isCompleted
             };
         }
 

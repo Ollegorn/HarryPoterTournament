@@ -67,7 +67,7 @@ namespace HarryPotterTournament.Controllers
         public async Task<ActionResult> UpdateDuel(DuelUpdateRequestDto duelUpdateRequest)
         {
             var updatedDuel = await _updaterService.UpdateDuelPoints(duelUpdateRequest);
-
+            var final = await _updaterService.UpdateDuel(duelUpdateRequest);
             if (!updatedDuel)
             {
                 return NotFound("Duel Not Found");
