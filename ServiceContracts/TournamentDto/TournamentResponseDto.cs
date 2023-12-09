@@ -77,15 +77,16 @@ namespace ServiceContracts.TournamentDto
             {
                 return null;
             }
+
+
             return new UserResponseDto
             {
                 UserName = user.UserName,
-                Wins = user.Wins,
-                Defeats = user.Defeats,
-                TotalTournamentPoints = user.TotalTournamentPoints,
                 Id = user.Id,
+                TournamentStats = user.TournamentStats
             };
         }
+
 
         public static DuelResponseDto ToDuelResponseDto(this Duel duel)
         {

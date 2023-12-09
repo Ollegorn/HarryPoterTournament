@@ -28,24 +28,24 @@ namespace HarryPotterTournament.Controllers
 
             return Ok(user);
         }
-        [HttpPut("updateUserPoints")]
-        public async Task<IActionResult> UpdateUserPoints([FromBody] UserUpdateRequestDto userUpdateRequestDto)
-        {
-            if (userUpdateRequestDto == null)
-            {
-                return BadRequest("Invalid user update request.");
-            }
-
-            var result = await _userUpdaterService.UpdateUserPoints(userUpdateRequestDto);
-
-            if (!result)
-            {
-                return NotFound("User not found or points update failed.");
-            }
+        //[HttpPut("updateUserPoints")]
+        //public async Task<IActionResult> UpdateUserPoints([FromBody] UserUpdateRequestDto userUpdateRequestDto)
+        //{
+        //    if (userUpdateRequestDto == null)
+        //    {
+        //        return BadRequest("Invalid user update request.");
+        //    }
             
-            return Ok("User points updated successfully.");
+        //    var result = await _userUpdaterService.UpdateUserPoints(userUpdateRequestDto);
 
-        }
+        //    if (!result)
+        //    {
+        //        return NotFound("User not found or points update failed.");
+        //    }
+            
+        //    return Ok("User points updated successfully.");
+
+        //}
 
         [HttpGet("AllUsers")]
         public async Task<ActionResult<List<UserResponseDto>>> GetAllUsers()

@@ -2,6 +2,7 @@
 using RepositoryContracts;
 using ServiceContracts.DuelDto;
 using ServiceContracts.Interfaces.DuelInterfaces;
+using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,14 @@ namespace Services.DuelServices
         private readonly IDuelRepository _duelRepository;
         private readonly IUserUpdaterService _userUpdaterService;
         private readonly IUserGetterService _userGetterService;
+        private readonly ITournamentGetterService _tournamentGetterService;
 
-        public DuelUpdaterService(IDuelRepository duelRepository,IUserUpdaterService userUpdaterService,IUserGetterService userGetterService)
+        public DuelUpdaterService(IDuelRepository duelRepository, IUserUpdaterService userUpdaterService, IUserGetterService userGetterService, ITournamentGetterService tournamentGetterService)
         {
             _duelRepository = duelRepository;
             _userUpdaterService = userUpdaterService;
             _userGetterService = userGetterService;
+            _tournamentGetterService = tournamentGetterService;
         }
 
         public async Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto)
@@ -33,6 +36,7 @@ namespace Services.DuelServices
         public async Task<bool> UpdateDuelPoints(DuelUpdateRequestDto duelUpdateRequest)
         {
             var existingDuel = await _duelRepository.GetDuelById(duelUpdateRequest.DuelId);
+            var tournamentId = (await _tournamentGetterService.GetTournamentByDuelId(duelUpdateRequest.DuelId)).TournamentId;
             if (existingDuel == null)
             {
                 return false;
@@ -46,16 +50,21 @@ namespace Services.DuelServices
             var userOneDefeats = duelUpdateRequest.UserOneDefeats;
 
 
-            User userOne = await  _userGetterService.GetUserByUsername(existingDuel.UserOne.UserName);
-            var userTwo =await  _userGetterService.GetUserByUsername(existingDuel.UserTwo.UserName);
+            var userOne = await _userGetterService.GetUserByUsername(existingDuel.UserOne.UserName);
+            var userTwo = await _userGetterService.GetUserByUsername(existingDuel.UserTwo.UserName);
 
-            userOne.Wins += userOneWins;
-            userOne.Defeats += userOneDefeats;
-            userTwo.Wins += userOneDefeats;
-            userTwo.Defeats += userOneWins;
+            var userOneTournamentStats = userOne.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
+            var userTwoTournamentStats = userTwo.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
 
-            await _userUpdaterService.UpdateUserPointsAfterDuel(userOne);
-            await _userUpdaterService.UpdateUserPointsAfterDuel(userTwo);
+            
+            userOneTournamentStats.Wins += userOneWins;
+            userOneTournamentStats.Defeats += userOneDefeats;
+
+            userTwoTournamentStats.Wins += userOneDefeats; 
+            userTwoTournamentStats.Defeats += userOneWins;
+
+            await _userUpdaterService.UpdateUserPointsAfterDuel(tournamentId, userOne);
+            await _userUpdaterService.UpdateUserPointsAfterDuel(tournamentId, userTwo);
            
 
             return true;

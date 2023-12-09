@@ -8,5 +8,7 @@ namespace ServiceContracts.Interfaces.TournamentInterfaces
         Task<List<TournamentResponseDto>> GetAllTournaments();
 
         Task<TournamentResponseDto> GetTournamentById(Guid id);
+
+        Task<TournamentResponseDto> GetTournamentByDuelId(Guid duelId);
     }
 }

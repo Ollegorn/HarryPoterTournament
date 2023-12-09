@@ -14,6 +14,8 @@ namespace RepositoryContracts
         
         Task<TournamentResponseDto> GetTournamentById(Guid id);
 
+        Task<TournamentResponseDto> GetTournamentByDuelId(Guid duelId);
+
         Task<Tournament> AddTournament(Tournament tournament);
 
         Task<bool> DeleteTournament(Guid tournamentId);
@@ -23,5 +25,6 @@ namespace RepositoryContracts
         Task<bool> AddUserToTournament(Guid tournamentId, string username);
 
         Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId);
+
     }
 }

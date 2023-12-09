@@ -23,29 +23,49 @@ namespace Repositories
             return user;
         }
 
-        public async Task<bool> UpdateUserPoints(User user)
+        public async Task<bool> UpdateUserPoints(Guid tournamentId, User user)
         {
-            var existingUser = await _dbContext.Users.FindAsync(user.Id);
+            var existingUser = await _dbContext.Users
+                .Include(u => u.TournamentStats)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
             if (existingUser == null)
             {
                 return false;
             }
 
-            existingUser.TotalTournamentPoints = user.TotalTournamentPoints;
-            existingUser.Wins = user.Wins;
-            existingUser.Defeats = user.Defeats;
+            var tournamentStats = existingUser.TournamentStats
+                .FirstOrDefault(ts => ts.TournamentId == tournamentId);
+
+            if (tournamentStats == null)
+            {
+                return false;
+            }
+
+            tournamentStats.TotalPoints = user.TournamentStats
+                .FirstOrDefault(ts => ts.TournamentId == tournamentId)?.TotalPoints ?? 0;
+
+            tournamentStats.Wins = user.TournamentStats
+                .FirstOrDefault(ts => ts.TournamentId == tournamentId)?.Wins ?? 0;
+
+            tournamentStats.Defeats = user.TournamentStats
+                .FirstOrDefault(ts => ts.TournamentId == tournamentId)?.Defeats ?? 0;
 
             await _dbContext.SaveChangesAsync();
             return true;
         }
 
+
         public async Task<List<UserResponseDto>> GetAllUsers()
         {
-            var users = await _dbContext.Users.ToListAsync();
-            var usersResponseDto = users.Select(u => u.ToUserResponseDto()).ToList();
+            var users = await _dbContext.Users
+                .Include(u => u.TournamentStats)
+                .ToListAsync();
 
+            var usersResponseDto = users.Select(u => u.ToUserResponseDto()).ToList();
             return usersResponseDto;
         }
+
 
         //public async Task<bool> UpdateUserPointsByDuel(Duel duel)
         //{

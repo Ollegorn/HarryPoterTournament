@@ -12,12 +12,16 @@ namespace Services.TournamentServices
         private readonly ITournamentRepository _tournamentRepository;
         private readonly IDuelRepository _duelRepository;
         private readonly IUserGetterService _userGetterService;
+        private readonly IUserUpdaterService _userUpdaterService;
+        private readonly IUserRepository _userRepository;
 
-        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserGetterService userGetterService)
+        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserGetterService userGetterService,IUserUpdaterService userUpdaterService,IUserRepository userRepository)
         {
             _tournamentRepository = tournamentRepository;
             _duelRepository = duelRepository;
             _userGetterService = userGetterService;
+            _userUpdaterService = userUpdaterService;
+            _userRepository = userRepository;
         }
 
         public async Task<bool> AddUserToTournament(Guid tournamnetId, string username)
@@ -82,11 +86,38 @@ namespace Services.TournamentServices
         {
             var registeredUsers = await _tournamentRepository.GetRegisteredUsersForTournament(tournamentId);
 
-            var tournament = await _tournamentRepository.GetTournamentById(tournamentId);
-
             if (registeredUsers == null || registeredUsers.Count < 2)
             {
-                return false; 
+                return false;
+            }
+
+            foreach (var user in registeredUsers)
+            {
+                // Check if the user already has TournamentStats for the current tournament
+                var tournamentStats = user.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
+
+                if (tournamentStats == null)
+                {
+                    // If not, create a new TournamentStats entry and add it to the user's collection
+                    tournamentStats = new TournamentStats
+                    {
+                        TournamentId = tournamentId,
+                        Wins = 0,
+                        Defeats = 0,
+                        TotalPoints = 0
+                    };
+
+                    user.TournamentStats.Add(tournamentStats);
+                }
+                else
+                {
+                    // If already exists, reset the stats
+                    tournamentStats.Wins = 0;
+                    tournamentStats.Defeats = 0;
+                    tournamentStats.TotalPoints = 0;
+                }
+
+                await _userRepository.UpdateUserPoints(tournamentId, user);
             }
 
             for (int i = 0; i < registeredUsers.Count; i++)
@@ -101,12 +132,14 @@ namespace Services.TournamentServices
                         TournamentId = tournamentId
                     };
 
-                    await  _duelRepository.AddDuel(duel);
+                    await _duelRepository.AddDuel(duel);
                 }
             }
 
-            return true; 
+            return true;
         }
+
+
 
         public async Task<bool> UpdateTournament(TournamentUpdateRequestDto tournamentUpdateRequestDto)
         {

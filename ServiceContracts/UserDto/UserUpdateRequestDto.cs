@@ -10,11 +10,8 @@ namespace ServiceContracts.UserDto
     public class UserUpdateRequestDto
     {
         public string UserName { get; set; }
-
-        public int Wins { get; set; }
-
-        public int Defeats { get; set; }
-
+        public string Id { get; set; }
+        public TournamentStats TournamentStats { get; set; }
 
 
     }

@@ -27,6 +27,7 @@ namespace Entities.Entities
         public bool isCompleted { get; set; } = false;
 
 
+        public Tournament Tournament { get; set; }
 
 
         //Date to be taken

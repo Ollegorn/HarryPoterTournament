@@ -34,7 +34,9 @@ namespace Repositories
         {
             var duels = await _dbContext.Duels
                 .Include(duel => duel.UserOne)
+                    .ThenInclude(u => u.TournamentStats)
                 .Include(duel => duel.UserTwo)
+                    .ThenInclude(u => u.TournamentStats)
                 .ToListAsync();
 
             var duelsResponse = duels.Select(duel => duel.ToDuelResponseDto()).ToList();
@@ -47,7 +49,9 @@ namespace Repositories
         {
             var duel = await _dbContext.Duels
                 .Include(duel => duel.UserOne)
+                    .ThenInclude(u => u.TournamentStats)
                 .Include(duel => duel.UserTwo)
+                    .ThenInclude(u => u.TournamentStats)
                 .FirstOrDefaultAsync(duel => duel.DuelId == id);
 
             var duelResponse = duel.ToDuelResponseDto();

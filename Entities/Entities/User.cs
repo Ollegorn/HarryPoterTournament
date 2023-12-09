@@ -1,15 +1,16 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace Entities.Entities
 {
     public class User : IdentityUser
     {
-        public int Wins { get; set; }
-        public int Defeats { get; set; }
-        public int TotalTournamentPoints { get; set; }
+        public ICollection<TournamentStats> TournamentStats { get; set; }
 
-       
+        public User()
+        {
+            TournamentStats = new List<TournamentStats>();
+        }
+
         public ICollection<UserTournament> UserTournaments { get; set; }
     }
 }

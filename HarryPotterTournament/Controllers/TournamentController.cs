@@ -40,6 +40,16 @@ namespace HarryPotterTournament.Controllers
             }
             return Ok(tournament);
         }
+        [HttpGet("byDuelId/{duelId}")]
+        public async Task<ActionResult<TournamentResponseDto>> GetTournamentByDuelId(Guid duelId)
+        {
+            var tournament = await _getterService.GetTournamentByDuelId(duelId);
+            if (tournament == null)
+            {
+                return NotFound();
+            }
+            return Ok(tournament);
+        }
 
         [HttpPost("CreateTournament")]
         public async Task<ActionResult<Tournament>> AddTournament(TournamentAddRequestDto tournamentAddRequestDto)

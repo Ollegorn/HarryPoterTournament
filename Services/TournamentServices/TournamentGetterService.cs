@@ -1,11 +1,6 @@
 ﻿using RepositoryContracts;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.TournamentDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.TournamentServices
 {
@@ -30,6 +25,17 @@ namespace Services.TournamentServices
             var tournaments = await _tournamentRepository.GetAllTournaments();
 
             return tournaments;
-        } 
+        }
+
+        public async Task<TournamentResponseDto> GetTournamentByDuelId(Guid duelId)
+        {
+            var tournament = await _tournamentRepository.GetTournamentByDuelId(duelId);
+
+            if(tournament == null)
+            {
+                return null;
+            }
+            return tournament;
+        }
     }
 }

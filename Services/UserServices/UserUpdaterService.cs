@@ -1,13 +1,7 @@
 ﻿using Entities.Entities;
 using RepositoryContracts;
-using ServiceContracts.DuelDto;
 using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.UserDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.UserServices
 {
@@ -20,7 +14,7 @@ namespace Services.UserServices
             _userRepository = userRepository;
         }
 
-        public async Task<bool> UpdateUserPoints(UserUpdateRequestDto userUpdateRequestDto)
+        public async Task<bool> UpdateUserPoints(Guid tournamentId, UserUpdateRequestDto userUpdateRequestDto)
         {
             var existingUser = await _userRepository.GetUserByUsername(userUpdateRequestDto.UserName);
             if (existingUser == null)
@@ -28,17 +22,23 @@ namespace Services.UserServices
                 return false;
             }
 
-            existingUser.Wins = userUpdateRequestDto.Wins;
-            existingUser.Defeats = userUpdateRequestDto.Defeats;
-            //existingUser.TotalTournamentPoints = 2 points for win 1 for defeat
-            await _userRepository.UpdateUserPoints(existingUser);
+            var tournamentStats = existingUser.TournamentStats
+                .FirstOrDefault(ts => ts.TournamentId == tournamentId);
+
+           
+            tournamentStats.Wins = userUpdateRequestDto.TournamentStats?.Wins ?? 0;
+            tournamentStats.Defeats = userUpdateRequestDto.TournamentStats?.Defeats ?? 0;
+
+            await _userRepository.UpdateUserPoints(tournamentId, existingUser);
 
             return true;
         }
 
-        public async Task<bool> UpdateUserPointsAfterDuel(User user)
+
+
+        public async Task<bool> UpdateUserPointsAfterDuel(Guid tournamentId, User user)
         {
-            await _userRepository.UpdateUserPoints(user);
+            await _userRepository.UpdateUserPoints(tournamentId,user);
             return true;
         }
 

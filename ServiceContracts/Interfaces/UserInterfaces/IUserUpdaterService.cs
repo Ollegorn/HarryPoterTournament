@@ -11,9 +11,9 @@ namespace ServiceContracts.Interfaces.UserInterfaces
 {
     public interface IUserUpdaterService
     {
-        Task<bool> UpdateUserPoints(UserUpdateRequestDto userUpdateRequestDto);
+        Task<bool> UpdateUserPoints(Guid tournamentId, UserUpdateRequestDto userUpdateRequestDto);
 
-        Task<bool> UpdateUserPointsAfterDuel(User user);
+        Task<bool> UpdateUserPointsAfterDuel(Guid tournamentId, User user);
         //Task<bool> UpdateUserPointsByDuel(DuelUpdateRequestDto duelUpdateRequest);
     }
 }

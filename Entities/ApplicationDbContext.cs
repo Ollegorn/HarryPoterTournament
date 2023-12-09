@@ -18,6 +18,8 @@ namespace Entities
         public DbSet<UserTournament> UserTournaments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
+        public DbSet<TournamentStats> TournamentStats { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -34,6 +36,16 @@ namespace Entities
                 .HasOne(ut => ut.Tournament)
                 .WithMany(t => t.UserTournaments)
                 .HasForeignKey(ut => ut.TournamentId);
+
+            modelBuilder.Entity<Duel>()
+                .HasOne(d => d.Tournament)
+                .WithMany(t => t.TournamentDuels)
+                .HasForeignKey(d => d.TournamentId);
+
+            modelBuilder.Entity<TournamentStats>()
+                .HasKey(ts => ts.Id);
+
+            
         }
 
 

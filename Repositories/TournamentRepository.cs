@@ -63,7 +63,8 @@ namespace Repositories
         {
             var tournaments = await _dbContext.Tournaments
                 .Include(t => t.UserTournaments)
-                    .ThenInclude(ut => ut.User) // Include the User related to each UserTournament
+                    .ThenInclude(ut => ut.User)
+                        .ThenInclude(u => u.TournamentStats)
                 .Include(t => t.TournamentDuels)
                 .ToListAsync();
 
@@ -76,6 +77,8 @@ namespace Repositories
         {
             var tournament = await _dbContext.Tournaments
                 .Include(t => t.UserTournaments)
+                    .ThenInclude(ut => ut.User)
+                        .ThenInclude(u => u.TournamentStats)
                 .Include(t => t.TournamentDuels)
                 .FirstOrDefaultAsync(t => t.TournamentId == id);
 
@@ -89,11 +92,13 @@ namespace Repositories
             return tournamentResponseDto;
         }
 
+
         public async Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId)
         {
             return await _dbContext.UserTournaments
                 .Where(ut => ut.TournamentId == tournamentId)
                 .Select(ut => ut.User)
+                    .Include(u => u.TournamentStats)
                 .ToListAsync();
         }
 
@@ -144,6 +149,25 @@ namespace Repositories
             _dbContext.Tournaments.Remove(tournamentToDelete);
             await _dbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<TournamentResponseDto> GetTournamentByDuelId(Guid duelId)
+        {
+            var tournaments = await _dbContext.Tournaments
+                .Include(t => t.TournamentDuels)
+                .ToListAsync();
+
+            foreach (var tournament in tournaments)
+            {
+                if (tournament.TournamentDuels.Any(d => d.DuelId == duelId))
+                {
+                    var tournamentResponse = tournament.ToTournamentResponseDto();
+                    
+                    return tournamentResponse;
+                }
+            }
+
+            return null;
         }
     }
 }
