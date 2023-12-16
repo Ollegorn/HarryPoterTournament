@@ -25,8 +25,8 @@ namespace Repositories
         public async Task<bool> AddUserToTournament(Guid tournamentId, string username)
         {
             var tournament = await _dbContext.Tournaments
-                .Include(t => t.UserTournaments)
-                .FirstOrDefaultAsync(t => t.TournamentId == tournamentId);
+                                        .Include(t => t.UserTournaments)
+                                        .FirstOrDefaultAsync(t => t.TournamentId == tournamentId);
 
             if (tournament == null)
             {
@@ -39,20 +39,17 @@ namespace Repositories
                 return false;
             }
 
-            // Check if the user is already registered in the tournament
             if (tournament.UserTournaments.Any(ut => ut.UserId == user.Id))
             {
                 return false;
             }
 
-            // Create a new UserTournament instance
             var userTournament = new UserTournament
             {
                 UserId = user.Id,
                 TournamentId = tournamentId
             };
 
-            // Add the UserTournament to the tournament
             tournament.UserTournaments.Add(userTournament);
 
             await _dbContext.SaveChangesAsync();
@@ -92,15 +89,16 @@ namespace Repositories
             return tournamentResponseDto;
         }
 
-
         public async Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId)
         {
             return await _dbContext.UserTournaments
                 .Where(ut => ut.TournamentId == tournamentId)
+                .Include(ut => ut.User.TournamentStats) // Apply Include before Select
                 .Select(ut => ut.User)
-                    .Include(u => u.TournamentStats)
                 .ToListAsync();
         }
+
+
 
         public async Task<Tournament> AddTournament(Tournament tournament)
         {
@@ -168,6 +166,36 @@ namespace Repositories
             }
 
             return null;
+        }
+
+        public async Task<bool> RemoveUserFromTournament(Guid tournamentId, string username)
+        {
+            var tournament = await _dbContext.Tournaments
+                                        .Include(t => t.UserTournaments)
+                                        .FirstOrDefaultAsync(t => t.TournamentId == tournamentId);
+
+            if (tournament == null)
+            {
+                return false;
+            }
+
+            var user = await _userGetterService.GetUserByUsername(username);
+            if (user == null)
+            {
+                return false;
+            }
+
+            var userTournament = tournament.UserTournaments.FirstOrDefault(ut => ut.UserId == user.Id);
+
+            if (userTournament == null)
+            {
+                return false;
+            }
+
+            tournament.UserTournaments.Remove(userTournament);
+
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

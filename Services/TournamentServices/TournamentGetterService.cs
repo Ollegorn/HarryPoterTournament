@@ -1,4 +1,6 @@
 ﻿using RepositoryContracts;
+using ServiceContracts.DuelDto;
+using ServiceContracts.Interfaces.DuelInterfaces;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.TournamentDto;
 

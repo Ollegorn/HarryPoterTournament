@@ -24,6 +24,8 @@ namespace RepositoryContracts
 
         Task<bool> AddUserToTournament(Guid tournamentId, string username);
 
+        Task<bool> RemoveUserFromTournament(Guid tournamentId, string username);
+
         Task<List<User>> GetRegisteredUsersForTournament(Guid tournamentId);
 
     }

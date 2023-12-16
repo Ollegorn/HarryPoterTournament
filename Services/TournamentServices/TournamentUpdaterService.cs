@@ -1,5 +1,7 @@
 ﻿using Entities.Entities;
 using RepositoryContracts;
+using ServiceContracts.DuelDto;
+using ServiceContracts.Interfaces.DuelInterfaces;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.TournamentDto;
@@ -14,14 +16,16 @@ namespace Services.TournamentServices
         private readonly IUserGetterService _userGetterService;
         private readonly IUserUpdaterService _userUpdaterService;
         private readonly IUserRepository _userRepository;
+        private readonly IDuelUpdaterService _duelUpdaterService;
 
-        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserGetterService userGetterService,IUserUpdaterService userUpdaterService,IUserRepository userRepository)
+        public TournamentUpdaterService(ITournamentRepository tournamentRepository,IDuelRepository duelRepository,IUserGetterService userGetterService,IUserUpdaterService userUpdaterService,IUserRepository userRepository, IDuelUpdaterService duelUpdaterService)
         {
             _tournamentRepository = tournamentRepository;
             _duelRepository = duelRepository;
             _userGetterService = userGetterService;
             _userUpdaterService = userUpdaterService;
             _userRepository = userRepository;
+            _duelUpdaterService = duelUpdaterService;
         }
 
         public async Task<bool> AddUserToTournament(Guid tournamnetId, string username)
@@ -56,31 +60,59 @@ namespace Services.TournamentServices
             return true;
         }
 
-        //public async Task<bool> RemoveUserFromTournament(Guid tournamentId, string username)
-        //{
-        //    var tournament = await _tournamentRepository.GetTournamentById(tournamentId);
-        //    if (tournament == null)
-        //    {
-        //        return false;
-        //    }
+        
 
-        //    var user = await _userRepository.GetUserByUsername(username);
-        //    if (user == null)
-        //    {
-        //        return false;
-        //    }
+        public async Task<bool> RemoveUserFromTournament(Guid tournamentId, string username)
+        {
+            var tournament = await _tournamentRepository.GetTournamentById(tournamentId);
+            if (tournament == null)
+            {
+                return false;
+            }
 
-        //    var userToRemove = tournament.RegisteredUsers.FirstOrDefault(u => u.UserName == username);
-        //    if (userToRemove == null)
-        //    {
-        //        return false;
-        //    }
+            var userToRemove = tournament.RegisteredUsers.FirstOrDefault(u => u.UserName == username);
+            if (userToRemove == null)
+            {
+                return false;
+            }
 
-        //    tournament.RegisteredUsers.Remove(userToRemove);
-        //    var tourn = tournament.ToTournament();
-        //    await _tournamentRepository.UpdateTournament(tourn);
-        //    return true;
-        //}
+            tournament.RegisteredUsers.Remove(userToRemove);
+            var tourn = tournament.ToTournament();
+            await _tournamentRepository.UpdateTournament(tourn);
+
+            foreach (var duel in tournament.TournamentDuels)
+            {
+                var duelUpdateDto = new DuelUpdateRequestDto
+                {
+                    DuelId = duel.DuelId
+                };
+
+                // Check if the duel is not already completed
+                if (!duel.isCompleted)
+                {
+                    // Update points based on the removed user
+                    if (duel.UserOne?.UserName == username && duel.UserTwo != null)
+                    {
+                        duelUpdateDto.UserOneWins = 0;
+                        duelUpdateDto.UserOneDefeats = 2;
+                        duelUpdateDto.isCompleted = true;
+                    }
+                    else if (duel.UserOne != null && duel.UserTwo?.UserName == username)
+                    {
+                        duelUpdateDto.UserOneWins = 2;
+                        duelUpdateDto.UserOneDefeats = 0;
+                        duelUpdateDto.isCompleted = true;
+                    }
+
+                    // Update points for the individual duel
+                    await _duelUpdaterService.UpdateDuelPoints(duelUpdateDto);
+                    await _duelUpdaterService.UpdateDuel(duelUpdateDto);
+                }
+            }
+
+            return true;
+        }
+
 
         public async Task<bool> StartTournament(Guid tournamentId)
         {

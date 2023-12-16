@@ -107,20 +107,20 @@ namespace HarryPotterTournament.Controllers
             return Ok("Tournament started successfully.");
         }
 
-        //[HttpPost("RemoveUserFromTournament")]
-        //public async Task<IActionResult> UpdateTournament(AddUserToTournDto RemoveUserToFromTournamentDto)
-        //{
+        [HttpPost("RemoveUserFromTournament")]
+        public async Task<IActionResult> UpdateTournament(AddUserToTournDto RemoveUserToFromTournamentDto)
+        {
 
-            
-        //    var result = await _updaterService.RemoveUserFromTournament(RemoveUserToFromTournamentDto.TournamentId, RemoveUserToFromTournamentDto.Username);
 
-        //    if (!result)
-        //    {
-        //        return NotFound(); // Tournament with the provided ID was not found
-        //    }
+            var result = await _updaterService.RemoveUserFromTournament(RemoveUserToFromTournamentDto.TournamentId, RemoveUserToFromTournamentDto.Username);
 
-        //    return NoContent(); // Successfully updated the tournament
-        //}
+            if (!result)
+            {
+                return NotFound(); // Tournament with the provided ID was not found
+            }
+
+            return Ok("User removed successfully."); // Successfully updated the tournament
+        }
 
 
 

@@ -13,7 +13,7 @@ namespace ServiceContracts.Interfaces.TournamentInterfaces
 
         Task<bool> AddUserToTournament(Guid tournamnetId, string username);
 
-        //Task<bool> RemoveUserFromTournament(Guid tournamentId , string username);
+        Task<bool> RemoveUserFromTournament(Guid tournamentId , string username);
 
         Task<bool> StartTournament(Guid tournamentId);
     }

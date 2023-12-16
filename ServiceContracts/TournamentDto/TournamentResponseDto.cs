@@ -43,7 +43,12 @@ namespace ServiceContracts.TournamentDto
                 Description = Description,
                 IsFlagged = IsFlagged,
                 StartDate = StartDate,
-                EndDate = EndDate
+                EndDate = EndDate,
+                UserTournaments = RegisteredUsers?.Select(user => new UserTournament
+                {
+                    UserId = user.Id,
+                    TournamentId = TournamentId
+                }).ToList()
             };
         }
     }
