@@ -19,9 +19,12 @@ namespace Repositories
             throw new NotImplementedException();
         }
 
-        public Task<bool> DeleteTournamentStatsById(Guid id)
+        public async Task<bool> DeleteTournamentStatsById(Guid tournamentStatsId)
         {
-            throw new NotImplementedException();
+            var statsToDelete = await _dbContext.TournamentStats.FindAsync(tournamentStatsId);
+            _dbContext.TournamentStats.Remove(statsToDelete);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
 
         public async Task<List<TournamentStats>> GetAllTournamentStats()

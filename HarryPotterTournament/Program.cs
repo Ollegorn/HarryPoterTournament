@@ -9,10 +9,12 @@ using RepositoryContracts;
 using ServiceContracts.Interfaces;
 using ServiceContracts.Interfaces.DuelInterfaces;
 using ServiceContracts.Interfaces.TournamentInterfaces;
+using ServiceContracts.Interfaces.TournamentStatsInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using Services;
 using Services.DuelServices;
 using Services.TournamentServices;
+using Services.TournamentStatsServices;
 using Services.UserServices;
 using System.Text;
 
@@ -44,6 +46,10 @@ builder.Services.AddScoped<ITournamentGetterService, TournamentGetterService>();
 builder.Services.AddScoped<ITournamentAdderService, TournamentAdderService>();
 builder.Services.AddScoped<ITournamentUpdaterService, TournamentUpdaterService>();
 builder.Services.AddScoped<ITournamentDeleterService, TournamentDeleterService>();
+
+builder.Services.AddScoped<ITournamentStatsRepository, TournamentStatsRepository>();
+builder.Services.AddScoped<ITournamentStatsGetterService, TournamentStatsGetterService>();
+builder.Services.AddScoped<ITournamentStatsDeleterService, TournamentStatsDeleterService>();
 
 
 builder.Services.AddIdentity<User, IdentityRole>(options => {

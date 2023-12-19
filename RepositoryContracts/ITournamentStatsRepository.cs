@@ -17,7 +17,7 @@ namespace RepositoryContracts
 
         Task<bool> UpdateTournamentStats(TournamentStats tournamentStats);
 
-        Task<bool> DeleteTournamentStatsById(Guid id);
+        Task<bool> DeleteTournamentStatsById(Guid tournamentStatsId);
 
     }
 }
