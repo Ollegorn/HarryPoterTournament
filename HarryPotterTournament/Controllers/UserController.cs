@@ -54,5 +54,16 @@ namespace HarryPotterTournament.Controllers
             return Ok(users);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserResponseDto>> GetUserById(string id)
+        {
+            var user = await _userGetterService.GetUserById(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user);
+        }
+
     }
 }

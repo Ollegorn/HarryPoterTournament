@@ -1,4 +1,5 @@
 ﻿using Entities.Entities;
+using ServiceContracts.InvitationDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,19 @@ namespace ServiceContracts.UserDto
         public string Id { get; set; }
         public ICollection<TournamentStats> TournamentStats { get; set; }
 
+        public ICollection<InvitationResponseDto> SentInvitations { get; set; }
+        public ICollection<InvitationResponseDto> ReceivedInvitations { get; set; }
+
+        public User ToUser()
+        {
+            return new User
+            {
+                UserName = UserName,
+                Id = Id,
+                TournamentStats = TournamentStats,
+
+            };
+        }
     }
 
     public static class UserExtentions
@@ -28,8 +42,15 @@ namespace ServiceContracts.UserDto
             {
                 UserName = user.UserName,
                 Id = user.Id,
-                TournamentStats = user.TournamentStats.ToList()
+                TournamentStats = user.TournamentStats.ToList(),
+                SentInvitations = user.SentInvitations.ToInvitationResponseDtoList(),
+                ReceivedInvitations = user.ReceivedInvitations.ToInvitationResponseDtoList()
+
             };
+        }
+        public static List<InvitationResponseDto> ToInvitationResponseDtoList(this ICollection<Invitation> invitations)
+        {
+            return invitations.Select(invitation => invitation.ToInvitationResponseDto()).ToList();
         }
     }
 }

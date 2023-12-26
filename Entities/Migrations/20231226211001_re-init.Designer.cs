@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231209222209_removed user from tournamentstats")]
-    partial class removeduserfromtournamentstats
+    [Migration("20231226211001_re-init")]
+    partial class reinit
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,45 @@ namespace Entities.Migrations
                     b.HasIndex("UserTwoId");
 
                     b.ToTable("Duels");
+                });
+
+            modelBuilder.Entity("Entities.Entities.Invitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsAccepted")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeclined")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RecipientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<Guid>("TournamentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RecipientId");
+
+                    b.HasIndex("SenderId");
+
+                    b.ToTable("Invitations");
                 });
 
             modelBuilder.Entity("Entities.Entities.Tournament", b =>
@@ -402,6 +441,25 @@ namespace Entities.Migrations
                     b.Navigation("UserTwo");
                 });
 
+            modelBuilder.Entity("Entities.Entities.Invitation", b =>
+                {
+                    b.HasOne("Entities.Entities.User", "Recipient")
+                        .WithMany("ReceivedInvitations")
+                        .HasForeignKey("RecipientId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Entities.Entities.User", "Sender")
+                        .WithMany("SentInvitations")
+                        .HasForeignKey("SenderId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Recipient");
+
+                    b.Navigation("Sender");
+                });
+
             modelBuilder.Entity("Entities.Entities.TournamentStats", b =>
                 {
                     b.HasOne("Entities.Entities.User", null)
@@ -490,6 +548,10 @@ namespace Entities.Migrations
 
             modelBuilder.Entity("Entities.Entities.User", b =>
                 {
+                    b.Navigation("ReceivedInvitations");
+
+                    b.Navigation("SentInvitations");
+
                     b.Navigation("TournamentStats");
 
                     b.Navigation("UserTournaments");

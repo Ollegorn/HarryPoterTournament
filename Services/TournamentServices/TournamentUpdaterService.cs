@@ -52,7 +52,7 @@ namespace Services.TournamentServices
             }
             else
             {
-                return false; // Handle the case where tournament, user, or RegisteredUsers is null
+                return false;
             }
             tournament.RegisteredUsers.Add(userResponse);
             await _tournamentRepository.AddUserToTournament(tournament.TournamentId, userResponse.UserName);
@@ -87,10 +87,8 @@ namespace Services.TournamentServices
                     DuelId = duel.DuelId
                 };
 
-                // Check if the duel is not already completed
                 if (!duel.isCompleted)
                 {
-                    // Update points based on the removed user
                     if (duel.UserOne?.UserName == username && duel.UserTwo != null)
                     {
                         duelUpdateDto.UserOneWins = 0;
@@ -104,7 +102,6 @@ namespace Services.TournamentServices
                         duelUpdateDto.isCompleted = true;
                     }
 
-                    // Update points for the individual duel
                     await _duelUpdaterService.UpdateDuelPoints(duelUpdateDto);
                     await _duelUpdaterService.UpdateDuel(duelUpdateDto);
                 }
@@ -125,12 +122,10 @@ namespace Services.TournamentServices
 
             foreach (var user in registeredUsers)
             {
-                // Check if the user already has TournamentStats for the current tournament
                 var tournamentStats = user.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
 
                 if (tournamentStats == null)
                 {
-                    // If not, create a new TournamentStats entry and add it to the user's collection
                     tournamentStats = new TournamentStats
                     {
                         TournamentId = tournamentId,
@@ -143,7 +138,6 @@ namespace Services.TournamentServices
                 }
                 else
                 {
-                    // If already exists, reset the stats
                     tournamentStats.Wins = 0;
                     tournamentStats.Defeats = 0;
                     tournamentStats.TotalPoints = 0;

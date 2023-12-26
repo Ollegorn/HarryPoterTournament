@@ -43,9 +43,20 @@ namespace Repositories
             return tournamentStats;
         }
 
-        public Task<bool> UpdateTournamentStats(TournamentStats tournamentStats)
+        public async Task<bool> UpdateTournamentStats(TournamentStats tournamentStats)
         {
-            throw new NotImplementedException();
+            var tournamentStatsToUpdate = await _dbContext.TournamentStats.FindAsync(tournamentStats.Id);
+            if (tournamentStatsToUpdate == null)
+            {
+                return false;
+            }
+            tournamentStatsToUpdate.TotalPoints = tournamentStats.TotalPoints;
+            tournamentStatsToUpdate.Wins = tournamentStats.Wins;
+            tournamentStatsToUpdate.Defeats = tournamentStats.Defeats;
+            _dbContext.TournamentStats.Update(tournamentStatsToUpdate);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -60,12 +60,36 @@ namespace Repositories
         {
             var users = await _dbContext.Users
                 .Include(u => u.TournamentStats)
+                .Include(u => u.ReceivedInvitations)
+                .Include(u => u.SentInvitations)
                 .ToListAsync();
 
             var usersResponseDto = users.Select(u => u.ToUserResponseDto()).ToList();
             return usersResponseDto;
         }
 
+        public async Task<bool> UpdateUser(User user)
+        {
+            var userToUpdate = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            
+            if (userToUpdate == null) 
+               return false;
+
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
+        public async Task<UserResponseDto> GetUserById(string id)
+        {
+            var user = await _dbContext.Users
+                .Include(u => u.TournamentStats)
+                .Include(u => u.ReceivedInvitations)
+                .Include(u => u.SentInvitations)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            var userResponse = user.ToUserResponseDto();
+            return userResponse;
+        }
 
         //public async Task<bool> UpdateUserPointsByDuel(Duel duel)
         //{

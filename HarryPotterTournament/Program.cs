@@ -8,11 +8,13 @@ using Repositories;
 using RepositoryContracts;
 using ServiceContracts.Interfaces;
 using ServiceContracts.Interfaces.DuelInterfaces;
+using ServiceContracts.Interfaces.InvitationInterfaces;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.TournamentStatsInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using Services;
 using Services.DuelServices;
+using Services.InvitationServices;
 using Services.TournamentServices;
 using Services.TournamentStatsServices;
 using Services.UserServices;
@@ -50,6 +52,11 @@ builder.Services.AddScoped<ITournamentDeleterService, TournamentDeleterService>(
 builder.Services.AddScoped<ITournamentStatsRepository, TournamentStatsRepository>();
 builder.Services.AddScoped<ITournamentStatsGetterService, TournamentStatsGetterService>();
 builder.Services.AddScoped<ITournamentStatsDeleterService, TournamentStatsDeleterService>();
+
+builder.Services.AddScoped<IInvitationRepository, InvitationRepository>();
+builder.Services.AddScoped<IInvitationGetterService, InvitationGetterService>();
+builder.Services.AddScoped<IInvitationAdderService, InvitationAdderService>();
+builder.Services.AddScoped<IInvitationDeleterService, InvitationDeleterService>();
 
 
 builder.Services.AddIdentity<User, IdentityRole>(options => {

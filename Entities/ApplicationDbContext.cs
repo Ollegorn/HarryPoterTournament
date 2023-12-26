@@ -17,8 +17,8 @@ namespace Entities
         public DbSet<Tournament> Tournaments { get; set; }
         public DbSet<UserTournament> UserTournaments { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
-
         public DbSet<TournamentStats> TournamentStats { get; set; }
+        public DbSet<Invitation> Invitations { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,7 +45,15 @@ namespace Entities
             modelBuilder.Entity<TournamentStats>()
                 .HasKey(ts => ts.Id);
 
-            
+            modelBuilder.Entity<Invitation>()
+                .HasOne(i => i.Sender)
+                .WithMany(u => u.SentInvitations)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Invitation>()
+                .HasOne(i => i.Recipient)
+                .WithMany(u => u.ReceivedInvitations)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
 

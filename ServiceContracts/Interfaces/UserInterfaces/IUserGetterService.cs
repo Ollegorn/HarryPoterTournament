@@ -12,7 +12,7 @@ namespace ServiceContracts.Interfaces.UserInterfaces
     {
 
         Task<User> GetUserByUsername(string username);
-
+        Task<UserResponseDto> GetUserById(string id);
         Task<List<UserResponseDto>> GetAllUsers();
     }
 }

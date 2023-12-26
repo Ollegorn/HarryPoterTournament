@@ -93,12 +93,10 @@ namespace Repositories
         {
             return await _dbContext.UserTournaments
                 .Where(ut => ut.TournamentId == tournamentId)
-                .Include(ut => ut.User.TournamentStats) // Apply Include before Select
+                .Include(ut => ut.User.TournamentStats)
                 .Select(ut => ut.User)
                 .ToListAsync();
         }
-
-
 
         public async Task<Tournament> AddTournament(Tournament tournament)
         {

@@ -20,6 +20,11 @@ namespace Services.UserServices
             return users;
         }
 
+        public async Task<UserResponseDto> GetUserById(string id)
+        {
+            var user = await _repository.GetUserById(id);
+            return user;
+        }
 
         public async Task<User> GetUserByUsername(string username)
         {

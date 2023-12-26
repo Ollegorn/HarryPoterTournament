@@ -13,9 +13,13 @@ namespace RepositoryContracts
 
         Task<User> GetUserByUsername(string username);
 
+        Task<UserResponseDto> GetUserById(string id);
+
         Task<bool> UpdateUserPoints(Guid tournamentId, User user);
 
         Task<List<UserResponseDto>> GetAllUsers();
+
+        Task<bool> UpdateUser(User user);
 
         //Task<bool> UpdateUserPointsByDuel(Duel duel);
     }
