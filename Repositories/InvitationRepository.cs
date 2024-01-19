@@ -46,14 +46,26 @@ namespace Repositories
             return invitationsResponseDto;
         }
 
-        public Task<InvitationResponseDto> GetInvitationById(Guid id)
+        public async Task<InvitationResponseDto> GetInvitationById(Guid id)
         {
-            throw new NotImplementedException();
+            var invitation = await _dbContext.Invitations
+                .Include(inv => inv.Recipient)
+                .Include(inv => inv.Sender)
+                .FirstOrDefaultAsync();
+
+            if (invitation == null)
+                return null;
+
+            var invitationResponseDto = invitation.ToInvitationResponseDto();
+
+            return invitationResponseDto;
         }
 
-        public Task<bool> UpdateInvitation(Invitation invitation)
+        public async Task<bool> UpdateInvitation(Invitation invitation)
         {
-            throw new NotImplementedException();
+            _dbContext.Invitations.Update(invitation);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -13,12 +13,14 @@ namespace HarryPotterTournament.Controllers
         private readonly IInvitationGetterService _getterService;
         private readonly IInvitationAdderService _adderService;
         private readonly IInvitationDeleterService _deleterService;
+        private readonly IInvitationUpdaterService _updaterService;
 
-        public InvitationController(IInvitationGetterService getterService, IInvitationAdderService adderService, IInvitationDeleterService deleterService)
+        public InvitationController(IInvitationGetterService getterService, IInvitationAdderService adderService, IInvitationDeleterService deleterService, IInvitationUpdaterService updaterService)
         {
             _getterService = getterService;
             _adderService = adderService;
             _deleterService = deleterService;
+            _updaterService = updaterService;
         }
 
         [HttpGet("AllInvitations")]
@@ -43,6 +45,17 @@ namespace HarryPotterTournament.Controllers
                 return NotFound();
 
             return Ok("Deleted successfully");
+        }
+
+        [HttpPost("ReturnInvitationToSender")]
+        public async Task<ActionResult> UpdateInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
+        {
+            var updatedInvitation = await _updaterService.ReturnInvitationToSender(invitationUpdateRequestDto);
+
+            if (!updatedInvitation)
+                return NotFound();
+
+            return Ok("Updated Successfully");
         }
 
     }

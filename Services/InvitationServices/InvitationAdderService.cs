@@ -1,13 +1,7 @@
-﻿using Entities.Entities;
-using RepositoryContracts;
+﻿using RepositoryContracts;
 using ServiceContracts.Interfaces.InvitationInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.InvitationDto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Services.InvitationServices
 {
@@ -34,10 +28,8 @@ namespace Services.InvitationServices
             recipient.ReceivedInvitations.Add(invitation);
             sender.SentInvitations.Add(invitation);
 
-            // Save changes to the database
             await _invitationRepository.AddInvitation(invitation);
 
-            // Update the users in the database (assuming they are being tracked by the DbContext)
             await _userRepository.UpdateUser(sender);
             await _userRepository.UpdateUser(recipient);
 

@@ -57,6 +57,7 @@ builder.Services.AddScoped<IInvitationRepository, InvitationRepository>();
 builder.Services.AddScoped<IInvitationGetterService, InvitationGetterService>();
 builder.Services.AddScoped<IInvitationAdderService, InvitationAdderService>();
 builder.Services.AddScoped<IInvitationDeleterService, InvitationDeleterService>();
+builder.Services.AddScoped<IInvitationUpdaterService, InvitationUpdaterService>();
 
 
 builder.Services.AddIdentity<User, IdentityRole>(options => {

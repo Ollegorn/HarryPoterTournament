@@ -17,6 +17,23 @@ namespace ServiceContracts.InvitationDto
         public string Message { get; set; }
         public bool IsAccepted { get; set; }
         public bool IsDeclined { get; set; }
+
+        public Invitation ToInvitation(User sender, User recipient)
+        {
+            return new Invitation
+            {
+                Id = Id,
+                Sender = sender,
+                Recipient = recipient,
+                RecipientUsername = RecipientUsername,
+                SenderUsername = SenderUsername,
+                TournamentId = TournamentId,
+                DateTime = DateTime,
+                Message = Message,
+                IsAccepted = IsAccepted,
+                IsDeclined = IsDeclined
+            };
+        }
     }
 
     public static class InvitationExtentions
