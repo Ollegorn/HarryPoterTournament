@@ -11,6 +11,7 @@ namespace ServiceContracts.UserDto
     {
         public string UserName { get; set; }
         public string Id { get; set; }
+        public int ImageNumber { get; set; }
         public TournamentStats TournamentStats { get; set; }
 
 

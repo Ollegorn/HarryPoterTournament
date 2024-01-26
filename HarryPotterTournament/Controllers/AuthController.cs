@@ -35,7 +35,8 @@ namespace HarryPotterTournament.Controllers
             var user = new User
             {
                 UserName = userRegisterDto.UserName,
-                Email = userRegisterDto.Email
+                Email = userRegisterDto.Email,
+                ImageNumber = userRegisterDto.ImageNumber,
             };
 
             var result = await _userManager.CreateAsync(user, userRegisterDto.Password);

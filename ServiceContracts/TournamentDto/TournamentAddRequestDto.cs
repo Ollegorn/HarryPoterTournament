@@ -19,9 +19,15 @@ namespace ServiceContracts.TournamentDto
 
         public string Description { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateOnly StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateOnly EndDate { get; set; }
+
+        public bool BalancedMode { get; set; }
+        public bool EchoBan { get; set; }
+        public bool CardBan { get; set; }
+        public bool TwoWinsInThreeGames { get; set; }
+        public bool Rewards { get; set; }
 
 
         public Tournament ToTournament()
@@ -34,7 +40,12 @@ namespace ServiceContracts.TournamentDto
                 ImageNumber = ImageNumber,
                 Description = Description,
                 StartDate = StartDate,
-                EndDate = EndDate
+                EndDate = EndDate,
+                BalancedMode = BalancedMode,
+                EchoBan = EchoBan,
+                CardBan = CardBan,
+                TwoWinsInThreeGames = TwoWinsInThreeGames,
+                Rewards = Rewards,
             };
         }
     }

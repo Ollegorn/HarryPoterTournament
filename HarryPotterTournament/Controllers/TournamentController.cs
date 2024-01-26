@@ -23,7 +23,7 @@ namespace HarryPotterTournament.Controllers
             _updaterService = tournamentUpdaterService;
         }
 
-        [HttpGet("AllTournamnets")]
+        [HttpGet("AllTournaments")]
         public async Task<ActionResult<List<TournamentResponseDto>>> GetAllTournaments()
         {
             var tournaments = await _getterService.GetAllTournaments();

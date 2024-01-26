@@ -11,6 +11,7 @@ namespace ServiceContracts.UserDto
     public class UserResponseDto
     {
         public string UserName { get; set; }
+        public int ImageNumber { get; set; }
         public string Id { get; set; }
         public ICollection<TournamentStats> TournamentStats { get; set; }
 
@@ -21,6 +22,7 @@ namespace ServiceContracts.UserDto
         {
             return new User
             {
+                ImageNumber = ImageNumber,
                 UserName = UserName,
                 Id = Id,
                 TournamentStats = TournamentStats,
@@ -41,6 +43,7 @@ namespace ServiceContracts.UserDto
             return new UserResponseDto
             {
                 UserName = user.UserName,
+                ImageNumber = user.ImageNumber,
                 Id = user.Id,
                 TournamentStats = user.TournamentStats.ToList(),
                 SentInvitations = user.SentInvitations.ToInvitationResponseDtoList(),
