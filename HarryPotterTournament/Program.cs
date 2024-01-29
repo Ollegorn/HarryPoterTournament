@@ -28,7 +28,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:Harry:SqlDb"]);
 });
 
 builder.Services.AddScoped<IJwtService, JwtService>();

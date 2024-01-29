@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.AuthorizationDto;
 using ServiceContracts.AuthorizationDTOs;
 using ServiceContracts.Interfaces;
-using Services;
 
 namespace HarryPotterTournament.Controllers
 {

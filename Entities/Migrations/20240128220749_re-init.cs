@@ -86,7 +86,9 @@ namespace Entities.Migrations
                     EchoBan = table.Column<bool>(type: "bit", nullable: false),
                     CardBan = table.Column<bool>(type: "bit", nullable: false),
                     TwoWinsInThreeGames = table.Column<bool>(type: "bit", nullable: false),
-                    Rewards = table.Column<bool>(type: "bit", nullable: false)
+                    Rewards = table.Column<bool>(type: "bit", nullable: false),
+                    Format = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DuelMode = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

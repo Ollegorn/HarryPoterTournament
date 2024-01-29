@@ -20,6 +20,8 @@ namespace ServiceContracts.TournamentDto
         public bool CardBan { get; set; }
         public bool TwoWinsInThreeGames { get; set; }
         public bool Rewards { get; set; }
+        public string Format { get; set; }
+        public string DuelMode { get; set; }
 
         public List<UserResponseDto> RegisteredUsers { get; set; }
 
@@ -46,6 +48,8 @@ namespace ServiceContracts.TournamentDto
                 CardBan = CardBan,
                 TwoWinsInThreeGames = TwoWinsInThreeGames,
                 Rewards = Rewards,
+                Format = Format,
+                DuelMode = DuelMode,
                 UserTournaments = RegisteredUsers?.Select(user => new UserTournament
                 {
                     UserId = user.Id,
@@ -76,6 +80,8 @@ namespace ServiceContracts.TournamentDto
                 CardBan= tournament.CardBan,
                 TwoWinsInThreeGames= tournament.TwoWinsInThreeGames,
                 Rewards= tournament.Rewards,
+                Format= tournament.Format,
+                DuelMode= tournament.DuelMode,
 
             };
 
