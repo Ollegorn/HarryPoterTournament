@@ -62,7 +62,7 @@ namespace HarryPotterTournament.Controllers
             }
 
             //check if user exists
-            var existingUser = await _userManager.FindByNameAsync(userLoginRequestDto.Username);
+            var existingUser = await _userManager.FindByEmailAsync(userLoginRequestDto.Email);
             if (existingUser == null)
             {
                 return BadRequest("User doesn't exist");
