@@ -13,6 +13,7 @@ namespace ServiceContracts.UserDto
         public string UserName { get; set; }
         public int ImageNumber { get; set; }
         public string Id { get; set; }
+        public ICollection<string> Roles { get; set; }
         public ICollection<TournamentStats> TournamentStats { get; set; }
 
         public ICollection<InvitationResponseDto> SentInvitations { get; set; }
