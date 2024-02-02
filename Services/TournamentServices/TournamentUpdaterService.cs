@@ -114,6 +114,9 @@ namespace Services.TournamentServices
         public async Task<bool> StartTournament(Guid tournamentId)
         {
             var registeredUsers = await _tournamentRepository.GetRegisteredUsersForTournament(tournamentId);
+            var tournamentResponseDto = await _tournamentRepository.GetTournamentById(tournamentId);
+            tournamentResponseDto.StartDate = DateOnly.FromDateTime(DateTime.Now);
+            var tournament = tournamentResponseDto.ToTournament();
 
             if (registeredUsers == null || registeredUsers.Count < 2)
             {
@@ -161,6 +164,8 @@ namespace Services.TournamentServices
                     await _duelRepository.AddDuel(duel);
                 }
             }
+
+            await _tournamentRepository.UpdateTournament(tournament);
 
             return true;
         }

@@ -119,6 +119,7 @@ namespace Repositories
             tournamentToUpdate.TournamentName = tournament.TournamentName;
             tournamentToUpdate.Prize = tournament.Prize;
             tournamentToUpdate.Rules = tournament.Rules;
+            tournamentToUpdate.StartDate = tournament.StartDate;
 
             // Clear existing UserTournaments and add the new ones
             tournamentToUpdate.UserTournaments.Clear();
