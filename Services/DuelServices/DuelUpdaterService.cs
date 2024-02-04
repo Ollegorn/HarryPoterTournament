@@ -56,20 +56,33 @@ namespace Services.DuelServices
             var userOneTournamentStats = userOne.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
             var userTwoTournamentStats = userTwo.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);
 
-            
-            userOneTournamentStats.Wins += userOneWins;
-            userOneTournamentStats.Defeats += userOneDefeats;
+            if (userOneWins > userOneDefeats)
+            {
+                userOneTournamentStats.Wins += 1;
+                userTwoTournamentStats.Defeats += 1;
+                userOneTournamentStats.TotalPoints += 2;
+                if(userOneDefeats == 1)
+                {
+                    userTwoTournamentStats.TotalPoints += 1;
+                }
+            }
+            if (userOneWins < userOneDefeats)
+            {
+                userOneTournamentStats.Defeats += 1;
+                userTwoTournamentStats.Wins += 1;
+                userTwoTournamentStats.TotalPoints += 2;
+                if (userOneWins == 1)
+                {
+                    userOneTournamentStats.TotalPoints += 1;
+                }
+            }
 
-            userTwoTournamentStats.Wins += userOneDefeats; 
-            userTwoTournamentStats.Defeats += userOneWins;
 
             await _userUpdaterService.UpdateUserPointsAfterDuel(tournamentId, userOne);
             await _userUpdaterService.UpdateUserPointsAfterDuel(tournamentId, userTwo);
            
 
             return true;
-
-
 
         }
     }
