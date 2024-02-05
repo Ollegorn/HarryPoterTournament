@@ -25,11 +25,14 @@ namespace Services.UserServices
 
         public async Task<UserResponseDto> GetUserById(string id)
         {
+            var userResponse = await _repository.GetUserById(id);
             var user = await _userManager.FindByIdAsync(id);
             var roles = await _userManager.GetRolesAsync(user);
 
             var userResponseDto = user.ToUserResponseDto();
             userResponseDto.Roles = roles;
+            userResponseDto.SentInvitations = userResponse.SentInvitations.ToList();
+            userResponseDto.ReceivedInvitations = userResponse.ReceivedInvitations.ToList();
             return userResponseDto;
         }
 

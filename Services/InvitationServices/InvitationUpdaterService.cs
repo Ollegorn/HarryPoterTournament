@@ -30,8 +30,8 @@ namespace Services.InvitationServices
             if (existingInvitation == null)
                 return false;
 
-            var updatedSender = existingInvitation.RecipientUsername;
-            var updatedRecipient = existingInvitation.SenderUsername;
+            var updatedSender = existingInvitation.Recipient.UserName;
+            var updatedRecipient = existingInvitation.Sender.UserName;
 
             var invitationAddRequestDto = new InvitationAddRequestDto
             {
@@ -44,10 +44,10 @@ namespace Services.InvitationServices
                 IsDeclined = invitationUpdateRequestDto.IsDeclined,
             };
 
-            _invitationAdderService.AddInvitation(invitationAddRequestDto);
-            _invitationDeleterService.DeleteInvitationById(existingInvitation.Id);
+            await _invitationAdderService.AddInvitation(invitationAddRequestDto);
+            await _invitationDeleterService.DeleteInvitationById(existingInvitation.Id);
 
-
+            
 
             return true;
 

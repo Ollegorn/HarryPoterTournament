@@ -1,4 +1,5 @@
 ﻿using Entities.Entities;
+using ServiceContracts.UserDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +11,8 @@ namespace ServiceContracts.InvitationDto
     public class InvitationResponseDto
     {
         public Guid Id { get; set; }
-        public string RecipientUsername { get; set; }
-        public string SenderUsername { get; set; }
+        public UserResponseDto Recipient { get; set; }
+        public UserResponseDto Sender { get; set; }
         public Guid TournamentId { get; set; }
         public DateTime DateTime { get; set; }
         public string Message { get; set; }
@@ -25,8 +26,6 @@ namespace ServiceContracts.InvitationDto
                 Id = Id,
                 Sender = sender,
                 Recipient = recipient,
-                RecipientUsername = RecipientUsername,
-                SenderUsername = SenderUsername,
                 TournamentId = TournamentId,
                 DateTime = DateTime,
                 Message = Message,
@@ -43,8 +42,8 @@ namespace ServiceContracts.InvitationDto
             var dto = new InvitationResponseDto
             {
                 Id = invitation.Id,
-                RecipientUsername = invitation.Recipient?.UserName ?? invitation.RecipientUsername,
-                SenderUsername = invitation.Sender?.UserName ?? invitation.SenderUsername,
+                Recipient = invitation.Recipient.ToUserResponseDto(),
+                Sender = invitation.Sender.ToUserResponseDto(),
                 TournamentId = invitation.TournamentId,
                 DateTime = invitation.DateTime,
                 Message = invitation.Message,
@@ -52,6 +51,22 @@ namespace ServiceContracts.InvitationDto
                 IsDeclined = invitation.IsDeclined,
             };
             return dto;
+        }
+        public static UserResponseDto ToUserResponseDto(this User user)
+        {
+            if (user == null)
+            {
+                return null;
+            }
+
+
+            return new UserResponseDto
+            {
+                UserName = user.UserName,
+                Id = user.Id,
+                ImageNumber = user.ImageNumber,
+                TournamentStats = user.TournamentStats
+            };
         }
 
         public static List<InvitationResponseDto> ToInvitationResponseDtoList(this List<Invitation> invitations)

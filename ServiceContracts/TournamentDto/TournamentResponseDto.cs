@@ -101,6 +101,7 @@ namespace ServiceContracts.TournamentDto
             {
                 UserName = user.UserName,
                 Id = user.Id,
+                ImageNumber = user.ImageNumber,
                 TournamentStats = user.TournamentStats
             };
         }
