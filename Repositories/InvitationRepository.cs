@@ -61,9 +61,14 @@ namespace Repositories
             return invitationResponseDto;
         }
 
-        public async Task<bool> UpdateInvitation(Invitation invitation)
+        public async Task<bool> UpdateInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
         {
-            _dbContext.Invitations.Update(invitation);
+            var invitationToUpdate = await _dbContext.Invitations.FindAsync(invitationUpdateRequestDto.Id);
+            if (invitationToUpdate == null)
+                return false;
+
+            invitationToUpdate.IsAccepted = invitationUpdateRequestDto.IsAccepted;
+            _dbContext.Invitations.Update(invitationToUpdate);
             await _dbContext.SaveChangesAsync();
             return true;
         }

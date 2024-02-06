@@ -10,5 +10,7 @@ namespace ServiceContracts.Interfaces.InvitationInterfaces
     public interface IInvitationUpdaterService
     {
         Task<bool> ReturnInvitationToSender(InvitationUpdateRequestDto invitationUpdateRequestDto);
+
+        Task<bool> AcceptInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto);
     }
 }

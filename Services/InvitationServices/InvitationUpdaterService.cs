@@ -52,5 +52,17 @@ namespace Services.InvitationServices
             return true;
 
         }
+
+        public async Task<bool> AcceptInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
+        {
+            var existingInvitation = await _invitationRepository.GetInvitationById(invitationUpdateRequestDto.Id);
+
+            if (existingInvitation == null)
+                return false;
+
+            await _invitationRepository.UpdateInvitation(invitationUpdateRequestDto);
+            return true;
+
+        }
     }
 }

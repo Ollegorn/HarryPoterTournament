@@ -14,6 +14,6 @@ namespace RepositoryContracts
         Task<InvitationResponseDto> GetInvitationById(Guid id);
         Task<Invitation> AddInvitation(Invitation invitation);
         Task<bool> DeleteInvitationById(Guid id);
-        Task<bool> UpdateInvitation(Invitation invitation);
+        Task<bool> UpdateInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto);
     }
 }

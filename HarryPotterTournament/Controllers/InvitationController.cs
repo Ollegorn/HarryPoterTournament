@@ -47,11 +47,22 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpPost("ReturnInvitationToSender")]
-        public async Task<ActionResult> UpdateInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
+        public async Task<ActionResult> ReturnInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
         {
             var updatedInvitation = await _updaterService.ReturnInvitationToSender(invitationUpdateRequestDto);
 
             if (!updatedInvitation)
+                return NotFound();
+
+            return Ok("Updated Successfully");
+        }
+
+        [HttpPost("AcceptInvitation")]
+        public async Task<ActionResult> AcceptInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
+        {
+            var acceptedInv = await _updaterService.AcceptInvitation(invitationUpdateRequestDto);
+
+            if (!acceptedInv)
                 return NotFound();
 
             return Ok("Updated Successfully");
