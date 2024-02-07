@@ -1,5 +1,6 @@
 ﻿using RepositoryContracts;
 using ServiceContracts.Interfaces.DuelInterfaces;
+using ServiceContracts.Interfaces.InvitationInterfaces;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.Interfaces.TournamentStatsInterfaces;
 using System;
@@ -15,12 +16,14 @@ namespace Services.TournamentServices
         private readonly ITournamentRepository _tournamentRepository;
         private readonly IDuelDeleterService _duelDeleterService;
         private readonly ITournamentStatsDeleterService _tournamentStatsDeleterService;
+        private readonly IInvitationDeleterService _invitationDeleterService;
 
-        public TournamentDeleterService(ITournamentRepository tournamentRepository, IDuelDeleterService duelDeleterService, ITournamentStatsDeleterService tournamentStatsDeleterService)
+        public TournamentDeleterService(ITournamentRepository tournamentRepository, IDuelDeleterService duelDeleterService, ITournamentStatsDeleterService tournamentStatsDeleterService, IInvitationDeleterService invitationDeleterService)
         {
             _tournamentRepository = tournamentRepository;
             _duelDeleterService = duelDeleterService;
             _tournamentStatsDeleterService = tournamentStatsDeleterService;
+            _invitationDeleterService = invitationDeleterService;
         }
 
         public async Task<bool> DeleteTournament(Guid id)
@@ -31,6 +34,9 @@ namespace Services.TournamentServices
             {
                 return false;
             }
+
+            await _invitationDeleterService.DeleteInvitationByTournamentId(tournamentToDelete.TournamentId);
+
             if (tournamentToDelete.TournamentDuels.Count != 0 )
             {
 
@@ -53,6 +59,8 @@ namespace Services.TournamentServices
                     }
                 }
             }
+
+            
 
             var tournamentResponse =tournamentToDelete.ToTournament();
             _tournamentRepository.DeleteTournament(tournamentResponse.TournamentId);

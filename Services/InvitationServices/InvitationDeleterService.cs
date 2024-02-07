@@ -25,5 +25,18 @@ namespace Services.InvitationServices
 
             return true;
         }
+
+        public async Task<bool> DeleteInvitationByTournamentId(Guid tournamentId)
+        {
+            var invitations = await _invitationRepository.GetAllInvitations();
+            foreach (var invitationToDelete in invitations)
+            {
+                if(invitationToDelete.TournamentId == tournamentId)
+                {
+                    await _invitationRepository.DeleteInvitationById(invitationToDelete.Id);
+                }
+            }
+            return true;
+        }
     }
 }
