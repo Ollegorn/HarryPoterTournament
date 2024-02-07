@@ -117,7 +117,8 @@ namespace ServiceContracts.TournamentDto
                 UserTwo = duel.UserTwo?.ToUserResponseDto(),
                 DuelWins = duel.DuelWins,
                 DuelDefeats = duel.DuelDefeats,
-                isCompleted = duel.isCompleted
+                isCompleted = duel.isCompleted,
+                isChallenged = duel.isChallenged,
             };
         }
 

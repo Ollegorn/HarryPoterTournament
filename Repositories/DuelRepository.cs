@@ -68,6 +68,7 @@ namespace Repositories
             duelToUpdate.DuelWins = duelUpdateRequestDto.UserOneWins;
             duelToUpdate.DuelDefeats = duelUpdateRequestDto.UserOneDefeats;
             duelToUpdate.isCompleted = duelUpdateRequestDto.isCompleted;
+            duelToUpdate.isChallenged = duelUpdateRequestDto.isChallenged;
             _dbContext.Duels.Update(duelToUpdate);
             await _dbContext.SaveChangesAsync();
 
