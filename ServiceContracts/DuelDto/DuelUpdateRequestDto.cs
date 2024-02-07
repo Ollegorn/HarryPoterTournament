@@ -16,6 +16,7 @@ namespace ServiceContracts.DuelDto
         public int UserOneDefeats { get; set; }
 
         public bool isCompleted { get; set; }
+        public bool isChallenged { get; set; }
 
     }
 }

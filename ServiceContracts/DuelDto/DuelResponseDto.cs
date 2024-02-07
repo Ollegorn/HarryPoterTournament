@@ -18,6 +18,7 @@ namespace ServiceContracts.DuelDto
         public int DuelDefeats { get; set; }
 
         public bool isCompleted { get; set; }
+        public bool isChallenged { get; set; }
 
 
     }
@@ -31,7 +32,8 @@ namespace ServiceContracts.DuelDto
                 DuelName = duel.DuelName,
                 DuelWins = duel.DuelWins,
                 DuelDefeats = duel.DuelDefeats,
-                isCompleted = duel.isCompleted
+                isCompleted = duel.isCompleted,
+                isChallenged = duel.isChallenged,
 
             };
 

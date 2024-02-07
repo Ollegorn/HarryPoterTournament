@@ -19,7 +19,7 @@
 
         public bool isCompleted { get; set; } = false;
 
-
+        public bool isChallenged { get; set; } = false;
         public Tournament Tournament { get; set; }
 
 
