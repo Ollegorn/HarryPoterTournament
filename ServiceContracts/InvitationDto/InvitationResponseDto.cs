@@ -14,6 +14,7 @@ namespace ServiceContracts.InvitationDto
         public UserResponseDto Recipient { get; set; }
         public UserResponseDto Sender { get; set; }
         public Guid TournamentId { get; set; }
+        public Guid DuelId { get; set; }
         public DateTime DateTime { get; set; }
         public string Message { get; set; }
         public bool IsAccepted { get; set; }
@@ -27,6 +28,7 @@ namespace ServiceContracts.InvitationDto
                 Sender = sender,
                 Recipient = recipient,
                 TournamentId = TournamentId,
+                DuelId = DuelId,
                 DateTime = DateTime,
                 Message = Message,
                 IsAccepted = IsAccepted,
@@ -45,6 +47,7 @@ namespace ServiceContracts.InvitationDto
                 Recipient = invitation.Recipient.ToUserResponseDto(),
                 Sender = invitation.Sender.ToUserResponseDto(),
                 TournamentId = invitation.TournamentId,
+                DuelId = invitation.DuelId,
                 DateTime = invitation.DateTime,
                 Message = invitation.Message,
                 IsAccepted = invitation.IsAccepted,

@@ -12,5 +12,7 @@ namespace ServiceContracts.Interfaces.InvitationInterfaces
     {
         Task<List<InvitationResponseDto>> GetAllInvitations();
         Task<InvitationResponseDto> GetInvitationById(Guid id);
+
+        Task<List<InvitationResponseDto>> GetInvitationsByDuelId(Guid duelId);
     }
 }

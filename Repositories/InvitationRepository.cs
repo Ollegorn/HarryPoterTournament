@@ -61,6 +61,19 @@ namespace Repositories
             return invitationResponseDto;
         }
 
+        public async Task<List<InvitationResponseDto>> GetInvitationsByDuelId(Guid duelId)
+        {
+            var invitations = await _dbContext.Invitations
+                .Include(inv => inv.Recipient)
+                .Include(inv => inv.Sender)
+                .Where(inv => inv.DuelId == duelId)
+                .ToListAsync();
+
+            var invitationsResponseDto = invitations.Select(inv => inv.ToInvitationResponseDto()).ToList();
+            return invitationsResponseDto;
+
+        }
+
         public async Task<bool> UpdateInvitation(InvitationUpdateRequestDto invitationUpdateRequestDto)
         {
             var invitationToUpdate = await _dbContext.Invitations.FindAsync(invitationUpdateRequestDto.Id);

@@ -18,13 +18,15 @@ namespace Services.DuelServices
         private readonly IUserUpdaterService _userUpdaterService;
         private readonly IUserGetterService _userGetterService;
         private readonly ITournamentGetterService _tournamentGetterService;
+        private readonly IInvitationRepository _invitationRepository;
 
-        public DuelUpdaterService(IDuelRepository duelRepository, IUserUpdaterService userUpdaterService, IUserGetterService userGetterService, ITournamentGetterService tournamentGetterService)
+        public DuelUpdaterService(IDuelRepository duelRepository, IUserUpdaterService userUpdaterService, IUserGetterService userGetterService, ITournamentGetterService tournamentGetterService, IInvitationRepository invitationRepository)
         {
             _duelRepository = duelRepository;
             _userUpdaterService = userUpdaterService;
             _userGetterService = userGetterService;
             _tournamentGetterService = tournamentGetterService;
+            _invitationRepository = invitationRepository;
         }
 
         public async Task<bool> UpdateDuel(DuelUpdateRequestDto duelUpdateRequestDto)
@@ -37,6 +39,11 @@ namespace Services.DuelServices
         {
             var existingDuel = await _duelRepository.GetDuelById(duelUpdateRequest.DuelId);
             var tournamentId = (await _tournamentGetterService.GetTournamentByDuelId(duelUpdateRequest.DuelId)).TournamentId;
+            var invitations = await _invitationRepository.GetInvitationsByDuelId(existingDuel.DuelId);
+            foreach (var invitation in invitations)
+            {
+                await _invitationRepository.DeleteInvitationById(invitation.Id);
+            }
             if (existingDuel == null)
             {
                 return false;

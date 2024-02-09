@@ -10,5 +10,6 @@ namespace ServiceContracts.Interfaces.InvitationInterfaces
     {
         Task<bool> DeleteInvitationById(Guid id);
         Task<bool> DeleteInvitationByTournamentId(Guid tournamentId);
+        Task<bool> DeleteInvitationsByDuelId(Guid duelId);
     }
 }

@@ -38,6 +38,7 @@ namespace Services.InvitationServices
                 SenderUsername = updatedSender,
                 RecipientUsername = updatedRecipient,
                 TournamentId = existingInvitation.TournamentId,
+                DuelId = existingInvitation.DuelId,
                 DateTime = invitationUpdateRequestDto.DateTime,
                 Message = invitationUpdateRequestDto.Message,
                 IsAccepted = invitationUpdateRequestDto.IsAccepted,

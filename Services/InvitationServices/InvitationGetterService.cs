@@ -25,5 +25,10 @@ namespace Services.InvitationServices
             var invitation = await _invitationRepository.GetInvitationById(id);
             return invitation;
         }
+        public async Task<List<InvitationResponseDto>> GetInvitationsByDuelId(Guid duelId)
+        {
+            var invitations = await _invitationRepository.GetInvitationsByDuelId(duelId);
+            return invitations;
+        }
     }
 }
