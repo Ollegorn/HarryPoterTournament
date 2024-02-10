@@ -51,6 +51,7 @@ namespace Repositories
             var invitation = await _dbContext.Invitations
                 .Include(inv => inv.Recipient)
                 .Include(inv => inv.Sender)
+                .Where(inv => inv.Id == id)
                 .FirstOrDefaultAsync();
 
             if (invitation == null)
@@ -81,6 +82,7 @@ namespace Repositories
                 return false;
 
             invitationToUpdate.IsAccepted = invitationUpdateRequestDto.IsAccepted;
+            invitationToUpdate.IsDeclined = invitationUpdateRequestDto.IsDeclined;
             _dbContext.Invitations.Update(invitationToUpdate);
             await _dbContext.SaveChangesAsync();
             return true;

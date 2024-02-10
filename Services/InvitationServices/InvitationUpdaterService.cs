@@ -45,8 +45,8 @@ namespace Services.InvitationServices
                 IsDeclined = invitationUpdateRequestDto.IsDeclined,
             };
 
-            await _invitationAdderService.AddInvitation(invitationAddRequestDto);
             await _invitationDeleterService.DeleteInvitationById(existingInvitation.Id);
+            await _invitationAdderService.AddInvitation(invitationAddRequestDto);
 
             
 
