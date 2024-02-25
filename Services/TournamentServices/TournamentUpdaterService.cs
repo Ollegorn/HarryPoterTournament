@@ -123,6 +123,11 @@ namespace Services.TournamentServices
                 return false;
             }
 
+            if (tournament.TournamentDuels.Count > 0) 
+            {
+                return false;
+            }
+
             foreach (var user in registeredUsers)
             {
                 var tournamentStats = user.TournamentStats.FirstOrDefault(ts => ts.TournamentId == tournamentId);

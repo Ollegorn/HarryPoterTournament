@@ -1,4 +1,5 @@
 ﻿using Entities.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ServiceContracts.Interfaces.TournamentInterfaces;
 using ServiceContracts.TournamentDto;
@@ -22,7 +23,6 @@ namespace HarryPotterTournament.Controllers
             _adderService = tournamentAdderService;
             _updaterService = tournamentUpdaterService;
         }
-
         [HttpGet("AllTournaments")]
         public async Task<ActionResult<List<TournamentResponseDto>>> GetAllTournaments()
         {
@@ -52,6 +52,7 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpPost("CreateTournament")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Tournament>> AddTournament(TournamentAddRequestDto tournamentAddRequestDto)
         {
             var addTournament = await _adderService.AddTournament(tournamentAddRequestDto);
