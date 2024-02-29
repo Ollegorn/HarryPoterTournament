@@ -123,7 +123,7 @@ namespace Services.TournamentServices
                 return false;
             }
 
-            if (tournament.TournamentDuels.Count > 0) 
+            if (tournament.TournamentDuels != null && tournament.TournamentDuels.Count > 0) 
             {
                 return false;
             }

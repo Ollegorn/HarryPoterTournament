@@ -1,4 +1,6 @@
 ﻿using RepositoryContracts;
+using ServiceContracts.DuelDto;
+using ServiceContracts.Interfaces.DuelInterfaces;
 using ServiceContracts.Interfaces.InvitationInterfaces;
 using ServiceContracts.Interfaces.UserInterfaces;
 using ServiceContracts.InvitationDto;
@@ -15,12 +17,14 @@ namespace Services.InvitationServices
         private readonly IInvitationRepository _invitationRepository;
         private readonly IInvitationDeleterService _invitationDeleterService;
         private readonly IInvitationAdderService _invitationAdderService;
+        private readonly IDuelUpdaterService _duelUpdaterService;
 
-        public InvitationUpdaterService(IInvitationRepository invitationRepository, IInvitationDeleterService invitationDeleterService, IInvitationAdderService invitationAdderService)
+        public InvitationUpdaterService(IInvitationRepository invitationRepository, IInvitationDeleterService invitationDeleterService, IInvitationAdderService invitationAdderService, IDuelUpdaterService duelUpdaterService)
         {
             _invitationRepository = invitationRepository;
             _invitationDeleterService = invitationDeleterService;
             _invitationAdderService = invitationAdderService;
+            _duelUpdaterService = duelUpdaterService;
         }
 
         public async Task<bool> ReturnInvitationToSender(InvitationUpdateRequestDto invitationUpdateRequestDto)
@@ -60,6 +64,17 @@ namespace Services.InvitationServices
 
             if (existingInvitation == null)
                 return false;
+
+            if (existingInvitation.IsAccepted == true && existingInvitation.IsDeclined == true)
+            {
+                var duelUpdateDto = new DuelUpdateRequestDto
+                {
+                    DuelId = existingInvitation.DuelId,
+                    isChallenged = false,
+                };
+
+                await _duelUpdaterService.UpdateDuel(duelUpdateDto);
+            }
 
             await _invitationRepository.UpdateInvitation(invitationUpdateRequestDto);
             return true;

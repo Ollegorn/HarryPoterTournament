@@ -71,6 +71,7 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpDelete("DeleteTournament")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> DeleteTournament(Guid id)
         {
             var isDeleted = await _deleterService.DeleteTournament(id);
@@ -96,6 +97,7 @@ namespace HarryPotterTournament.Controllers
         }
 
         [HttpPost("StartTournament")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> StartTournament(Guid tournamentId)
         {
             var success = await _updaterService.StartTournament(tournamentId);

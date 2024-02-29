@@ -10,9 +10,11 @@ namespace ServiceContracts.InvitationDto
     public class InvitationUpdateRequestDto
     {
         public Guid Id { get; set; }
+        public Guid DuelId { get; set; } = Guid.Empty;
         public DateTime DateTime { get; set; }
         public string Message { get; set; }
         public bool IsAccepted { get; set; }
         public bool IsDeclined { get; set; }
+
     }
 }
